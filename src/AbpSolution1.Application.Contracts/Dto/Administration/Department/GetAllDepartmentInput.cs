@@ -10,5 +10,7 @@ namespace AbpSolution1.Dto.Administration.Department
     public class GetAllDepartmentInput: PagedAndSortedResultRequestDto
     {
         public string? Filter { get; set; }
+
+        public int? Id { get; set; }
     }
 }
