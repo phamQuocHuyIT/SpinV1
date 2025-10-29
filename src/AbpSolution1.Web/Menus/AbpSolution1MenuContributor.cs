@@ -1,12 +1,12 @@
-using System.Threading.Tasks;
-using AbpSolution1.Localization;
-using AbpSolution1.Permissions;
+﻿using AbpSolution1.Localization;
 using AbpSolution1.MultiTenancy;
-using Volo.Abp.SettingManagement.Web.Navigation;
+using AbpSolution1.Permissions;
+using System.Threading.Tasks;
 using Volo.Abp.Authorization.Permissions;
 using Volo.Abp.Identity.Web.Navigation;
-using Volo.Abp.UI.Navigation;
+using Volo.Abp.SettingManagement.Web.Navigation;
 using Volo.Abp.TenantManagement.Web.Navigation;
+using Volo.Abp.UI.Navigation;
 
 namespace AbpSolution1.Web.Menus;
 
@@ -24,7 +24,7 @@ public class AbpSolution1MenuContributor : IMenuContributor
     {
         var l = context.GetLocalizer<AbpSolution1Resource>();
 
-        //Home
+        // 🏠 Home
         context.Menu.AddItem(
             new ApplicationMenuItem(
                 AbpSolution1Menus.Home,
@@ -35,42 +35,48 @@ public class AbpSolution1MenuContributor : IMenuContributor
             )
         );
 
-
-        //Administration
+        // ⚙️ Administration group
         var administration = context.Menu.GetAdministration();
         administration.Order = 6;
 
-        //Administration->Identity
         administration.SetSubItemOrder(IdentityMenuNames.GroupName, 1);
-    
+
         if (MultiTenancyConsts.IsEnabled)
         {
-            administration.SetSubItemOrder(TenantManagementMenuNames.GroupName, 1);
+            administration.SetSubItemOrder(TenantManagementMenuNames.GroupName, 2);
         }
         else
         {
             administration.TryRemoveMenuItem(TenantManagementMenuNames.GroupName);
         }
-        
+
         administration.SetSubItemOrder(SettingManagementMenuNames.GroupName, 3);
 
-        //Administration->Settings
-        administration.SetSubItemOrder(SettingManagementMenuNames.GroupName, 7);
-    
+        // 📚 Books group
         context.Menu.AddItem(
             new ApplicationMenuItem(
                 "BooksStore",
                 l["Menu:AbpSolution1"],
                 icon: "fa fa-book"
             ).AddItem(
-            new ApplicationMenuItem(
-                "BooksStore.Books",
-                l["Menu:Books"],
-                url: "/Books"
-                ).RequirePermissions(AbpSolution1Permissions.Books.Default) 
+                new ApplicationMenuItem(
+                    "BooksStore.Books",
+                    l["Menu:Books"],
+                    url: "/Books"
+                ).RequirePermissions(AbpSolution1Permissions.Books.Default)
             )
         );
-        
+
+        // 🏢 Departments in Administration
+        administration.AddItem(
+            new ApplicationMenuItem(
+                "Administration.Departments",
+                l["Menu:Departments"],
+                url: "/Departments",
+                icon: "fa fa-building"
+            ).RequirePermissions(AbpSolution1Permissions.Departments.Default)
+        );
+
         return Task.CompletedTask;
     }
 }
