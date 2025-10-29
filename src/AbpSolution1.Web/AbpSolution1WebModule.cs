@@ -149,7 +149,7 @@ public class AbpSolution1WebModule : AbpModule
         {
             options.IsDynamicPermissionStoreEnabled = true;
         });
-        
+
         Configure<RazorPagesOptions>(options =>
         {
             options.Conventions.AuthorizePage("/Books/Index", AbpSolution1Permissions.Books.Default);
