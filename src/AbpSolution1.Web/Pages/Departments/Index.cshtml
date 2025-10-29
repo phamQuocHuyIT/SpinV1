@@ -1,5 +1,6 @@
 ﻿@page
 @using AbpSolution1.Localization
+@using AbpSolution1.Permissions
 @using Microsoft.AspNetCore.Authorization
 @using Microsoft.Extensions.Localization
 @model AbpSolution1.Web.Pages.Departments.IndexModel
@@ -11,7 +12,20 @@
 }
 <abp-card>
     <abp-card-header>
-        <h2>@L["Department"]</h2>
+        <abp-row>
+            <abp-column size-md="_6">
+                <abp-card-title>@L["Department"]</abp-card-title>
+            </abp-column>
+            <abp-column size-md="_6" class="text-end">
+                @if (await AuthorizationService.IsGrantedAsync(AbpSolution1Permissions.Departments.Create))
+                {
+                    <abp-button id="NewDepartmentButton"
+                                text="@L["NewDepartment"].Value"
+                                icon="plus"
+                                button-type="Primary" />
+                }
+            </abp-column>
+        </abp-row>
     </abp-card-header>
     <abp-card-body>
         <abp-table striped-rows="true" id="DepartmentTable"></abp-table>

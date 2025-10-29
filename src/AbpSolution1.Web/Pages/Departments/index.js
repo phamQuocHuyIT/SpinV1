@@ -1,7 +1,7 @@
-$(function () {
+﻿$(function () {
     var l = abp.localization.getResource('AbpSolution1');
-    var createModal = new abp.ModalManager(abp.appPath + 'Books/CreateModal');
-    var editModal = new abp.ModalManager(abp.appPath + 'Books/EditModal');
+    var createOrEditModal = new abp.ModalManager(abp.appPath + 'Departments/CreateOrEditModal');
+    const service = abpSolution1.service.administration.department.department;
 
     var dataTable = $('#DepartmentTable').DataTable(
         abp.libs.datatables.normalizeConfiguration({
@@ -10,78 +10,55 @@ $(function () {
             order: [[1, "asc"]],
             searching: false,
             scrollX: true,
-            ajax: abp.libs.datatables.createAjax(abpSolution1.books.book.getList),
+            ajax: abp.libs.datatables.createAjax(service.getAll),
             columnDefs: [
                 {
                     title: l('Actions'),
                     rowAction: {
-                        items:
-                            [
-                                {
-                                    text: l('Edit'),
-                                    visible: abp.auth.isGranted('AbpSolution1.Books.Edit'), 
-                                    action: function (data) {
-                                        editModal.open({ id: data.record.id });
-                                    }
-                                },
-                                {
-                                    text: l('Delete'),
-                                    visible: abp.auth.isGranted('AbpSolution1.Books.Delete'), 
-                                    confirmMessage: function (data) {
-                                        return l('BookDeletionConfirmationMessage', data.record.name);
-                                    },
-                                    action: function (data) {
-                                        abpSolution1.books.book
-                                            .delete(data.record.id)
-                                            .then(function() {
-                                                abp.notify.success(l('DeletedSuccessfully'));
-                                                dataTable.ajax.reload();
-                                            });
-                                    }
+                        items: [
+                            {
+                                text: l('Edit'),
+                                visible: abp.auth.isGranted('AbpSolution1.Administration.Departments.Edit'),
+                                action: function (data) {
+                                    createOrEditModal.open({ id: data.record.department.id });
                                 }
-                            ]
+                            },
+                            {
+                                text: l('Delete'),
+                                confirmMessage: function (data) {
+                                    return l('DepartmentDeletionConfirmationMessage', data.record.department.name);
+                                },
+                                visible: abp.auth.isGranted('AbpSolution1.Administration.Departments.Delete'),
+                                action: function (data) {
+                                    service.delete(data.record.department.id)
+                                        .then(function () {
+                                            abp.notify.success(l('DeletedSuccessfully'));
+                                            dataTable.ajax.reload();
+                                        });
+                                }
+                            }
+                        ]
                     }
                 },
-                {
-                    title: l('Name'),
-                    data: "name"
-                },
-                {
-                    title: l('Type'),
-                    data: "type",
-                    render: function (data) {
-                        return l('Enum:BookType.' + data);
-                    }
-                },
-                {
-                    title: l('PublishDate'),
-                    data: "publishDate",
-                    dataFormat: "datetime"
-                },
-                {
-                    title: l('Price'),
-                    data: "price"
-                },
-                {
-                    title: l('CreationTime'), data: "creationTime",
-                    dataFormat: "datetime"
-                }
+                { title: l('Code'), data: "department.code" },
+                { title: l('Name'), data: "department.name" },
+                { title: l('Note'), data: "department.note" },
+                { title: l('IsActive'), data: "department.isActive" },
+                
+
             ]
         })
     );
 
-    createModal.onResult(function () {
-        abp.notify.success(l('CreatedSuccessfully'));
-        dataTable.ajax.reload();
-    });
-
-    editModal.onResult(function () {
+    // Khi modal lưu xong, reload bảng
+    createOrEditModal.onResult(function () {
         abp.notify.success(l('SavedSuccessfully'));
         dataTable.ajax.reload();
     });
 
-    $('#NewBookButton').click(function (e) {
+    // Nút thêm mới
+    $('#NewDepartmentButton').click(function (e) {
         e.preventDefault();
-        createModal.open();
+        createOrEditModal.open();
     });
 });

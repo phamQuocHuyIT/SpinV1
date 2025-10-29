@@ -11,10 +11,7 @@ public class AbpSolution1PermissionDefinitionProvider : PermissionDefinitionProv
     {
         var myGroup = context.AddGroup(AbpSolution1Permissions.GroupName);
 
-        var departmentPermission = myGroup.AddPermission(
-           AbpSolution1Permissions.Departments.Default,
-           L("Permission:Departments")
-       );
+        var departmentPermission = myGroup.AddPermission(AbpSolution1Permissions.Departments.Default,L("Permission:Departments"));
         departmentPermission.AddChild(AbpSolution1Permissions.Departments.Create, L("Permission:Departments.Create"));
         departmentPermission.AddChild(AbpSolution1Permissions.Departments.Edit, L("Permission:Departments.Edit"));
         departmentPermission.AddChild(AbpSolution1Permissions.Departments.Delete, L("Permission:Departments.Delete"));
