@@ -67,14 +67,18 @@ public class AbpSolution1MenuContributor : IMenuContributor
             )
         );
 
-        // 🏢 Departments in Administration
-        administration.AddItem(
+        context.Menu.AddItem(
             new ApplicationMenuItem(
-                "Administration.Departments",
-                l["Menu:Departments"],
-                url: "/Departments",
+                "Organizational",
+                l["Menu:Organizational"],
                 icon: "fa fa-building"
-            ).RequirePermissions(AbpSolution1Permissions.Departments.Default)
+            ).AddItem(
+                new ApplicationMenuItem(
+                    "Organizational.Departments",
+                    l["Menu:Departments"],
+                    url: "/Departments"
+                ).RequirePermissions(AbpSolution1Permissions.Departments.Default)
+            )
         );
 
         return Task.CompletedTask;
