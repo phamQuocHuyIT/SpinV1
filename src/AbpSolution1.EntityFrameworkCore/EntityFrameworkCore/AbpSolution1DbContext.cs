@@ -15,6 +15,7 @@ using Volo.Abp.SettingManagement.EntityFrameworkCore;
 using Volo.Abp.OpenIddict.EntityFrameworkCore;
 using Volo.Abp.TenantManagement;
 using Volo.Abp.TenantManagement.EntityFrameworkCore;
+using AbpSolution1.Administration.Departmant;
 
 namespace AbpSolution1.EntityFrameworkCore;
 
@@ -29,6 +30,8 @@ public class AbpSolution1DbContext :
     /* Add DbSet properties for your Aggregate Roots / Entities here. */
 
     public DbSet<Book> Books { get; set; }
+
+    public DbSet<Departments> Departments { get; set; }
 
     #region Entities from the modules
 
