@@ -1,4 +1,4 @@
-using AbpSolution1.Administration.Customer;
+﻿using AbpSolution1.Administration.Customer;
 using AbpSolution1.Administration.Departmant;
 using Microsoft.EntityFrameworkCore;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
@@ -14,6 +14,8 @@ using Volo.Abp.SettingManagement.EntityFrameworkCore;
 using Volo.Abp.OpenIddict.EntityFrameworkCore;
 using Volo.Abp.TenantManagement;
 using Volo.Abp.TenantManagement.EntityFrameworkCore;
+using AbpSolution1.Administration.Departmant;
+using AbpSolution1.Administration.Employee;
 
 namespace AbpSolution1.EntityFrameworkCore;
 
@@ -28,6 +30,8 @@ public class AbpSolution1DbContext :
     /* Add DbSet properties for your Aggregate Roots / Entities here. */
 
     public DbSet<Departments> Departments { get; set; }
+
+    public DbSet<Employees> Employees { get; set; }
 
     public DbSet<Customers> Customers { get; set; }
 
@@ -76,6 +80,29 @@ public class AbpSolution1DbContext :
             b.ToTable("Spin_Departments");
             b.ConfigureByConvention();
         });
+
+        builder.Entity<Employees>(b =>
+        {
+            b.ToTable("Spin_Employees");
+
+            b.HasOne(e => e.Department)
+             .WithMany(d => d.Employees)
+             .HasForeignKey(e => e.DepartmentId)
+             .OnDelete(DeleteBehavior.Restrict); // hoặc Cascade nếu muốn xoá kèm
+        });
+
+        builder.Entity<Departments>(b =>
+        {
+            b.ToTable("Spin_Departments");
+        });
+        /* Configure your own tables/entities inside here */
+
+        //builder.Entity<YourEntity>(b =>
+        //{
+        //    b.ToTable(AbpSolution1Consts.DbTablePrefix + "YourEntities", AbpSolution1Consts.DbSchema);
+        //    b.ConfigureByConvention(); //auto configure for the base class props
+        //    //...
+        //});
 
         builder.Entity<Customers>(b =>
         {

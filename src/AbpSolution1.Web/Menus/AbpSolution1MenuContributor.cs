@@ -67,6 +67,23 @@ public class AbpSolution1MenuContributor : IMenuContributor
             )
         );
 
+        context.Menu.AddItem(
+            new ApplicationMenuItem(
+                "Organizational",
+                l["Menu:Organizational"],
+                icon: "fa fa-building"
+            ).AddItem(
+                new ApplicationMenuItem(
+                    "Organizational.Departments",
+                    l["Menu:Departments"],
+                    url: "/Departments"
+                ).RequirePermissions(AbpSolution1Permissions.Departments.Default)
+            ).AddItem(
+                new ApplicationMenuItem(
+                    "Organizational.Employees",
+                    l["Menu:Employees"],
+                    url: "/Employees"
+                ).RequirePermissions(AbpSolution1Permissions.Employees.Default)
         // Organizational group with Departments and Customers as subitems
         var organizational = new ApplicationMenuItem(
             "Organizational",

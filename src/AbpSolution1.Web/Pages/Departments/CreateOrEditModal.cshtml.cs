@@ -51,7 +51,7 @@ namespace AbpSolution1.Web.Pages.Departments
 
         }
 
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(int? id)
         {
             if (!ModelState.IsValid)
             {
@@ -61,9 +61,9 @@ namespace AbpSolution1.Web.Pages.Departments
             if(Department!= null)
             {
                 CreateUpdateDepartmentDto query = ObjectMapper.Map<CreateOrEditForViewDepartment, CreateUpdateDepartmentDto>(Department);
-                if (Id.HasValue)
+                if (id.HasValue)
                 {
-                    query.Id = Id.Value;
+                    query.Id = id.Value;
                 }
                 await _departmentAppService.CreateOrEdit(query);
                  // ✅ Cho phép modal đóng lại

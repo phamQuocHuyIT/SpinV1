@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AbpSolution1.Administration.Employee;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -11,6 +12,7 @@ namespace AbpSolution1.Administration.Departmant
     [Table("Spin_Departments")]
     public class Departments: SimpleEntity
     {
-        
+        // Quan hệ 1-n: Một Department có nhiều Employee
+        public virtual ICollection<Employees> Employees { get; set; } = new List<Employees>();
     }
 }
