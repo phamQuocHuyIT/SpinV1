@@ -5,6 +5,8 @@ using AbpSolution1.Administration.Departmant;
 using AbpSolution1.Dto.Administration.Department;
 using AbpSolution1.Dto.Administration.Employee;
 using AbpSolution1.Administration.Employee;
+using AbpSolution1.Dto.Config.Product;
+using AbpSolution1.Config.Product;
 
 namespace AbpSolution1;
 
@@ -24,6 +26,9 @@ public class AbpSolution1ApplicationAutoMapperProfile : Profile
         CreateMap<Employees, CreateUpdateEmployeeDto>();
         CreateMap<CreateOrEditForViewEmployeeDto, CreateUpdateEmployeeDto>();
         CreateMap<CreateUpdateEmployeeDto, CreateOrEditForViewEmployeeDto>();
+
+        CreateMap<CreateUpdateProductDto, Products>().ReverseMap();
+        CreateMap<CreateOrEditForViewProductDto, CreateUpdateProductDto>().ReverseMap();
         /* You can configure your AutoMapper mapping configuration here.
          * Alternatively, you can split your mapping configurations
          * into multiple profile classes for a better organization. */

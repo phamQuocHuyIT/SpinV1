@@ -66,7 +66,7 @@ public class AbpSolution1MenuContributor : IMenuContributor
                 ).RequirePermissions(AbpSolution1Permissions.Books.Default)
             )
         );
-
+        // Organizational group
         context.Menu.AddItem(
             new ApplicationMenuItem(
                 "Organizational",
@@ -84,6 +84,20 @@ public class AbpSolution1MenuContributor : IMenuContributor
                     l["Menu:Employees"],
                     url: "/Employees"
                 ).RequirePermissions(AbpSolution1Permissions.Employees.Default)
+            )
+        );
+        // Config group
+        context.Menu.AddItem(
+            new ApplicationMenuItem(
+                "Config",
+                l["Menu:Config"],
+                icon: "fa fa-cog"
+            ).AddItem(
+                new ApplicationMenuItem(
+                    "Organizational.Products",
+                    l["Menu:Products"],
+                    url: "/Products"
+                ).RequirePermissions(AbpSolution1Permissions.Products.Default)
             )
         );
 

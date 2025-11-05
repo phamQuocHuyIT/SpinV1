@@ -4,6 +4,7 @@ using AbpSolution1.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Volo.Abp.EntityFrameworkCore;
 
@@ -12,9 +13,11 @@ using Volo.Abp.EntityFrameworkCore;
 namespace AbpSolution1.Migrations
 {
     [DbContext(typeof(AbpSolution1DbContext))]
-    partial class AbpSolution1DbContextModelSnapshot : ModelSnapshot
+    [Migration("20251105193019_Add-Product")]
+    partial class AddProduct
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -272,7 +275,7 @@ namespace AbpSolution1.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Spin_Products");
+                    b.ToTable("Pruducts");
                 });
 
             modelBuilder.Entity("Volo.Abp.AuditLogging.AuditLog", b =>
