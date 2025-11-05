@@ -67,19 +67,31 @@ public class AbpSolution1MenuContributor : IMenuContributor
             )
         );
 
-        context.Menu.AddItem(
+        // Organizational group with Departments and Customers as subitems
+        var organizational = new ApplicationMenuItem(
+            "Organizational",
+            l["Menu:Organizational"],
+            icon: "fa fa-building"
+        );
+
+        organizational.AddItem(
             new ApplicationMenuItem(
-                "Organizational",
-                l["Menu:Organizational"],
-                icon: "fa fa-building"
-            ).AddItem(
-                new ApplicationMenuItem(
-                    "Organizational.Departments",
-                    l["Menu:Departments"],
-                    url: "/Departments"
-                ).RequirePermissions(AbpSolution1Permissions.Departments.Default)
+                "Organizational.Departments",
+                l["Menu:Departments"],
+                url: "/Departments"
+            ).RequirePermissions(AbpSolution1Permissions.Departments.Default)
+        );
+
+        // Show Customers without permission check so it appears together with Departments for testing
+        organizational.AddItem(
+            new ApplicationMenuItem(
+                "Organizational.Customers",
+                l["Menu:Customers"],
+                url: "/Customers"
             )
         );
+
+        context.Menu.AddItem(organizational);
 
         return Task.CompletedTask;
     }

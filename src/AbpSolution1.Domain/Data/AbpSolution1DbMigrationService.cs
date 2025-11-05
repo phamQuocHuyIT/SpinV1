@@ -13,6 +13,8 @@ using Volo.Abp.Identity;
 using Volo.Abp.MultiTenancy;
 using AbpSolution1.MultiTenancy;
 using Volo.Abp.TenantManagement;
+using Volo.Abp.BackgroundWorkers;
+
 
 namespace AbpSolution1.Data;
 

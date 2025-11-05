@@ -1,8 +1,7 @@
+using AbpSolution1.Administration.Customer;
+using AbpSolution1.Administration.Departmant;
 using Microsoft.EntityFrameworkCore;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
-using AbpSolution1.Books;
-using Volo.Abp.BackgroundJobs.EntityFrameworkCore;
-using Volo.Abp.BlobStoring.Database.EntityFrameworkCore;
 using Volo.Abp.Data;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.EntityFrameworkCore;
@@ -15,7 +14,6 @@ using Volo.Abp.SettingManagement.EntityFrameworkCore;
 using Volo.Abp.OpenIddict.EntityFrameworkCore;
 using Volo.Abp.TenantManagement;
 using Volo.Abp.TenantManagement.EntityFrameworkCore;
-using AbpSolution1.Administration.Departmant;
 
 namespace AbpSolution1.EntityFrameworkCore;
 
@@ -29,22 +27,11 @@ public class AbpSolution1DbContext :
 {
     /* Add DbSet properties for your Aggregate Roots / Entities here. */
 
-    public DbSet<Book> Books { get; set; }
-
     public DbSet<Departments> Departments { get; set; }
 
-    #region Entities from the modules
+    public DbSet<Customers> Customers { get; set; }
 
-    /* Notice: We only implemented IIdentityProDbContext and ISaasDbContext
-     * and replaced them for this DbContext. This allows you to perform JOIN
-     * queries for the entities of these modules over the repositories easily. You
-     * typically don't need that for other modules. But, if you need, you can
-     * implement the DbContext interface of the needed module and use ReplaceDbContext
-     * attribute just like IIdentityProDbContext and ISaasDbContext.
-     *
-     * More info: Replacing a DbContext of a module ensures that the related module
-     * uses this DbContext on runtime. Otherwise, it will use its own DbContext class.
-     */
+    #region Entities from the modules
 
     // Identity
     public DbSet<IdentityUser> Users { get; set; }
@@ -76,29 +63,24 @@ public class AbpSolution1DbContext :
 
         builder.ConfigurePermissionManagement();
         builder.ConfigureSettingManagement();
-        builder.ConfigureBackgroundJobs();
         builder.ConfigureAuditLogging();
         builder.ConfigureFeatureManagement();
         builder.ConfigureIdentity();
         builder.ConfigureOpenIddict();
         builder.ConfigureTenantManagement();
-        builder.ConfigureBlobStoring();
-        
-        builder.Entity<Book>(b =>
-        {
-            b.ToTable(AbpSolution1Consts.DbTablePrefix + "Books",
-                AbpSolution1Consts.DbSchema);
-            b.ConfigureByConvention(); //auto configure for the base class props
-            b.Property(x => x.Name).IsRequired().HasMaxLength(128);
-        });
         
         /* Configure your own tables/entities inside here */
 
-        //builder.Entity<YourEntity>(b =>
-        //{
-        //    b.ToTable(AbpSolution1Consts.DbTablePrefix + "YourEntities", AbpSolution1Consts.DbSchema);
-        //    b.ConfigureByConvention(); //auto configure for the base class props
-        //    //...
-        //});
+        builder.Entity<Departments>(b =>
+        {
+            b.ToTable("Spin_Departments");
+            b.ConfigureByConvention();
+        });
+
+        builder.Entity<Customers>(b =>
+        {
+            b.ToTable("Spin_Customers");
+            b.ConfigureByConvention();
+        });
     }
 }

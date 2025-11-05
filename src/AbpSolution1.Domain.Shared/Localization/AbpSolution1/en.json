@@ -32,7 +32,36 @@
     "Permission:Books.Edit": "Editing the books",
     "Permission:Books.Delete": "Deleting the books",
     "Menu:Home": "Home",
-    "LongWelcomeMessage": "Welcome to the application. This is a startup project based on the ABP framework. For more information visit",
-    "Welcome": "Welcome"
+    "LongWelcomeMessage": "Welcome to the application. This is a startup project based on the ABP framework. For more information, visit abp.io.",
+    "Welcome": "Welcome",
+
+    "Menu:Organizational": "Organizational",
+    "Menu:Departments": "Departments",
+    "Menu:Customers": "Customers",
+
+    "Customer": "Customer",
+    "NewCustomer": "New Customer",
+    "Code": "Code",
+    "FullName": "Full Name",
+    "Address": "Address",
+    "NumberPhone": "Phone Number",
+    "Rank": "Rank",
+    "Total": "Total",
+    "IsDelete": "Is Deleted",
+    "Note": "Note",
+    "IsActive": "Active",
+    "Actions": "Actions",
+    "Edit": "Edit",
+    "Delete": "Delete",
+    "Save": "Save",
+    "Cancel": "Cancel",
+    "SavedSuccessfully": "Saved successfully",
+    "DeletedSuccessfully": "Deleted successfully",
+    "Permission:Customers": "Customer Management",
+    "Permission:Customers.Create": "Creating new customers",
+    "Permission:Customers.Edit": "Editing customers",
+    "Permission:Customers.Delete": "Deleting customers",
+    "NotFindCustomer": "Customer not found",
+    "ObjectNull": "Input cannot be null"
   }
 }

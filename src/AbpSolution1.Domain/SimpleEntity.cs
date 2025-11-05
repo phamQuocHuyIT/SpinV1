@@ -14,5 +14,7 @@ namespace AbpSolution1
         public required string Code { get; set; }
         public string? Note { get; set; }
         public bool IsActive { get; set; }
+
+  
     }
 }

@@ -17,7 +17,7 @@ namespace AbpSolution1.Web.Pages.Departments
         // ✅ Bind Department để nhận dữ liệu từ form
         [BindProperty]
         public CreateOrEditForViewDepartment Department { get; set; }
-
+        
         private readonly IDepartmentAppService _departmentAppService;
 
         public CreateOrEditModalModel(IDepartmentAppService departmentAppService)

@@ -1,7 +1,6 @@
-using AbpSolution1.Localization;
+﻿using AbpSolution1.Localization;
 using Volo.Abp.Authorization.Permissions;
 using Volo.Abp.Localization;
-using Volo.Abp.MultiTenancy;
 
 namespace AbpSolution1.Permissions;
 
@@ -9,19 +8,34 @@ public class AbpSolution1PermissionDefinitionProvider : PermissionDefinitionProv
 {
     public override void Define(IPermissionDefinitionContext context)
     {
-        var myGroup = context.AddGroup(AbpSolution1Permissions.GroupName);
+        var myGroup = context.AddGroup(AbpSolution1Permissions.GroupName, L("Permission:AbpSolution1"));
 
-        var departmentPermission = myGroup.AddPermission(AbpSolution1Permissions.Departments.Default,L("Permission:Departments"));
+        // ✅ Departments
+        var departmentPermission = myGroup.AddPermission(
+            AbpSolution1Permissions.Departments.Default,
+            L("Permission:Departments")
+        );
         departmentPermission.AddChild(AbpSolution1Permissions.Departments.Create, L("Permission:Departments.Create"));
         departmentPermission.AddChild(AbpSolution1Permissions.Departments.Edit, L("Permission:Departments.Edit"));
         departmentPermission.AddChild(AbpSolution1Permissions.Departments.Delete, L("Permission:Departments.Delete"));
 
-        var booksPermission = myGroup.AddPermission(AbpSolution1Permissions.Books.Default, L("Permission:Books"));
+        // ✅ Books
+        var booksPermission = myGroup.AddPermission(
+            AbpSolution1Permissions.Books.Default,
+            L("Permission:Books")
+        );
         booksPermission.AddChild(AbpSolution1Permissions.Books.Create, L("Permission:Books.Create"));
         booksPermission.AddChild(AbpSolution1Permissions.Books.Edit, L("Permission:Books.Edit"));
         booksPermission.AddChild(AbpSolution1Permissions.Books.Delete, L("Permission:Books.Delete"));
-        //Define your own permissions here. Example:
-        //myGroup.AddPermission(AbpSolution1Permissions.MyPermission1, L("Permission:MyPermission1"));
+
+        // ✅ Customers
+        var customersPermission = myGroup.AddPermission(
+            AbpSolution1Permissions.Customers.Default,
+            L("Permission:Customers")
+        );
+        customersPermission.AddChild(AbpSolution1Permissions.Customers.Create, L("Permission:Customers.Create"));
+        customersPermission.AddChild(AbpSolution1Permissions.Customers.Edit, L("Permission:Customers.Edit"));
+        customersPermission.AddChild(AbpSolution1Permissions.Customers.Delete, L("Permission:Customers.Delete"));
     }
 
     private static LocalizableString L(string name)

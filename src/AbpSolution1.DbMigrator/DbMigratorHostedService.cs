@@ -1,4 +1,6 @@
-﻿using System.Threading;
+﻿using System.IO;
+using System.Text.Json;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -23,6 +25,39 @@ public class DbMigratorHostedService : IHostedService
 
     public async Task StartAsync(CancellationToken cancellationToken)
     {
+        // Validate connection string early and give a clear message
+        var defaultConn = _configuration.GetConnectionString("Default");
+
+        if (string.IsNullOrWhiteSpace(defaultConn))
+        {
+            // Try fallback: read appsettings.json from current directory
+            try
+            {
+                var basePath = Directory.GetCurrentDirectory();
+                var jsonPath = Path.Combine(basePath, "appsettings.json");
+                if (File.Exists(jsonPath))
+                {
+                    using var doc = JsonDocument.Parse(File.ReadAllText(jsonPath));
+                    if (doc.RootElement.TryGetProperty("ConnectionStrings", out var cs) && cs.TryGetProperty("Default", out var def))
+                    {
+                        defaultConn = def.GetString();
+                    }
+                }
+            }
+            catch
+            {
+                // ignore
+            }
+        }
+
+        if (string.IsNullOrWhiteSpace(defaultConn))
+        {
+            Log.Logger.Fatal("Connection string 'Default' is not configured in DbMigrator appsettings. Please set ConnectionStrings:Default.");
+            // Stop application to avoid confusing runtime exception later
+            _hostApplicationLifetime.StopApplication();
+            return;
+        }
+
         using (var application = await AbpApplicationFactory.CreateAsync<AbpSolution1DbMigratorModule>(options =>
         {
            options.Services.ReplaceConfiguration(_configuration);
