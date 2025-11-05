@@ -17,5 +17,6 @@ namespace AbpSolution1.Interface.Administration.Department
         Task CreateOrEdit(CreateUpdateDepartmentDto input);
 
         Task Delete(int id);
+        Task<ListResultDto<DepartmentLookupDto>> GetLookupAsync();
     }
 }

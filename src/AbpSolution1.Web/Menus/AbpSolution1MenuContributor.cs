@@ -78,6 +78,12 @@ public class AbpSolution1MenuContributor : IMenuContributor
                     l["Menu:Departments"],
                     url: "/Departments"
                 ).RequirePermissions(AbpSolution1Permissions.Departments.Default)
+            ).AddItem(
+                new ApplicationMenuItem(
+                    "Organizational.Employees",
+                    l["Menu:Employees"],
+                    url: "/Employees"
+                ).RequirePermissions(AbpSolution1Permissions.Employees.Default)
             )
         );
 

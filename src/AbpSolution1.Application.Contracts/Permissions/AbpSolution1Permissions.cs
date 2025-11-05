@@ -22,4 +22,11 @@ public static class AbpSolution1Permissions
         public const string Edit = Default + ".Edit";
         public const string Delete = Default + ".Delete";
     }
+    public static class Employees
+    {
+        public const string Default = GroupName + ".Administration.Employees";
+        public const string Create = Default + ".Create";
+        public const string Edit = Default + ".Edit";
+        public const string Delete = Default + ".Delete";
+    }
 }

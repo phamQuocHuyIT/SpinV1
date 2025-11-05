@@ -5,6 +5,7 @@ namespace AbpSolution1.Dto.Administration;
 
 public class CreateUpdateDepartmentDto
 {
+    public Guid? TenantId { get; set; }
     public int? Id { get; set; }
     [Required]
     [StringLength(128)]

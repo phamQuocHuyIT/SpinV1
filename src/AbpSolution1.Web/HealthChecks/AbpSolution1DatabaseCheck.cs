@@ -11,7 +11,7 @@ public class AbpSolution1DatabaseCheck : IHealthCheck, ITransientDependency
 {
     protected readonly IIdentityRoleRepository IdentityRoleRepository;
 
-    public AbpSolution1DatabaseCheck(IIdentityRoleRepository identityRoleRepository)
+   public AbpSolution1DatabaseCheck(IIdentityRoleRepository identityRoleRepository)
     {
         IdentityRoleRepository = identityRoleRepository;
     }

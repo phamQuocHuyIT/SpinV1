@@ -1,4 +1,4 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
 using AbpSolution1.Books;
 using Volo.Abp.BackgroundJobs.EntityFrameworkCore;
@@ -16,6 +16,7 @@ using Volo.Abp.OpenIddict.EntityFrameworkCore;
 using Volo.Abp.TenantManagement;
 using Volo.Abp.TenantManagement.EntityFrameworkCore;
 using AbpSolution1.Administration.Departmant;
+using AbpSolution1.Administration.Employee;
 
 namespace AbpSolution1.EntityFrameworkCore;
 
@@ -32,6 +33,8 @@ public class AbpSolution1DbContext :
     public DbSet<Book> Books { get; set; }
 
     public DbSet<Departments> Departments { get; set; }
+
+    public DbSet<Employees> Employees { get; set; }
 
     #region Entities from the modules
 
@@ -91,7 +94,21 @@ public class AbpSolution1DbContext :
             b.ConfigureByConvention(); //auto configure for the base class props
             b.Property(x => x.Name).IsRequired().HasMaxLength(128);
         });
-        
+
+        builder.Entity<Employees>(b =>
+        {
+            b.ToTable("Spin_Employees");
+
+            b.HasOne(e => e.Department)
+             .WithMany(d => d.Employees)
+             .HasForeignKey(e => e.DepartmentId)
+             .OnDelete(DeleteBehavior.Restrict); // hoặc Cascade nếu muốn xoá kèm
+        });
+
+        builder.Entity<Departments>(b =>
+        {
+            b.ToTable("Spin_Departments");
+        });
         /* Configure your own tables/entities inside here */
 
         //builder.Entity<YourEntity>(b =>

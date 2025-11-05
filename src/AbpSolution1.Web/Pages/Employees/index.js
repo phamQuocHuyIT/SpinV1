@@ -1,9 +1,9 @@
 ﻿$(function () {
     var l = abp.localization.getResource('AbpSolution1');
-    var createOrEditModal = new abp.ModalManager(abp.appPath + 'Departments/CreateOrEditModal');
-    const service = abpSolution1.service.administration.department.department;
+    var createOrEditModal = new abp.ModalManager(abp.appPath + 'Employees/CreateOrEditModal');
+    const service = abpSolution1.service.administration.employee.employee;
 
-    var dataTable = $('#DepartmentTable').DataTable(
+    var dataTable = $('#EmployeeTable').DataTable(
         abp.libs.datatables.normalizeConfiguration({
             serverSide: true,
             paging: true,
@@ -12,7 +12,7 @@
             scrollX: true,
             ajax: abp.libs.datatables.createAjax(service.getAll, function () {
                 return {
-                    filter: $('#DepartmentSearch').val() // gửi filter lên backend
+                    filter: $('#EmployeeSearch').val() // gửi filter lên backend
                 };
             }),
             columnDefs: [
@@ -22,17 +22,18 @@
                         items: [
                             {
                                 text: l('Edit'),
-                                visible: abp.auth.isGranted('AbpSolution1.Administration.Departments.Edit'),
+                                visible: abp.auth.isGranted('AbpSolution1.Administration.Employees.Edit'),
                                 action: function (data) {
-                                    createOrEditModal.open({ id: data.record.department.id });
+                                    console.log(data.record.employee);
+                                    createOrEditModal.open({ id: data.record.employee.id });
                                 }
                             },
                             {
                                 text: l('Delete'),
                                 confirmMessage: function (data) {
-                                    return l('DepartmentDeletionConfirmationMessage', data.record.department.name);
+                                    return l('DepartmentDeletionConfirmationMessage', data.record.employee.name);
                                 },
-                                visible: abp.auth.isGranted('AbpSolution1.Administration.Departments.Delete'),
+                                visible: abp.auth.isGranted('AbpSolution1.Administration.Employees.Delete'),
                                 action: function (data) {
                                     service.delete(data.record.department.id)
                                         .then(function () {
@@ -44,30 +45,19 @@
                         ]
                     }
                 },
-                { title: l('Code'), data: "department.code" },
-                { title: l('Name'), data: "department.name" },
-                { title: l('Note'), data: "department.note" },
-                {
-                    title: l('IsActive'),
-                    data: "department.isActive",
-                    render: function (data) {
-                        if (data) {
-                            // ✅ Nếu true → chấm màu xanh
-                            return '<span class="status-dot" style="display:inline-block;width:10px;height:10px;border-radius:50%;background-color:#28a745;"></span>';
-                        } else {
-                            // ❌ Nếu false → chấm màu xám
-                            return '<span class="status-dot" style="display:inline-block;width:10px;height:10px;border-radius:50%;background-color:#6c757d;"></span>';
-                        }
-                    },
-                    className: "text-center"
-                },
+                { title: l('Code'), data: "employee.code" },
+                { title: l('FullName'), data: "employee.fullName" },
+                { title: l('DOB'), data: "employee.dob", className: "text-center" },
+                { title: l('Gender'), data: "employee.generText" },
+                { title: l('Address'), data: "employee.address" },
+                
 
             ]
         })
     );
 
     // Reload lại bảng khi gõ tìm kiếm
-    $('#DepartmentSearch').on('keyup', function () {
+    $('#EmployeeSearch').on('keyup', function () {
         dataTable.ajax.reload();
     });
 
@@ -78,7 +68,7 @@
     });
 
     // Nút thêm mới
-    $('#NewDepartmentButton').click(function (e) {
+    $('#NewEmployeeButton').click(function (e) {
         e.preventDefault();
         createOrEditModal.open();
     });
