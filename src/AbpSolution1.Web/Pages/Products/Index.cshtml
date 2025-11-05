@@ -1,0 +1,38 @@
+﻿@page
+@model AbpSolution1.Web.Pages.Products.IndexModel
+@using AbpSolution1.Localization
+@using AbpSolution1.Permissions
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<AbpSolution1Resource> L
+@inject IAuthorizationService AuthorizationService
+@section scripts
+{
+    <abp-script src="/Pages/Products/Index.js" />
+}
+<abp-card>
+    <abp-card-header>
+        <abp-row>
+            <abp-column size-md="_6">
+                <abp-card-title>@L["Product"]</abp-card-title>
+            </abp-column>
+            <abp-column size-md="_6" class="text-end">
+                @if (await AuthorizationService.IsGrantedAsync(AbpSolution1Permissions.Products.Create))
+                {
+                    <abp-button id="NewProductButton"
+                                text="@L["NewProduct"].Value"
+                                icon="plus"
+                                button-type="Primary" />
+                }
+            </abp-column>
+            <abp-row class="mt-3">
+                <abp-column size-md="_6">
+                    <input type="text" id="Productsearch" class="form-control" placeholder="@L["SearchProduct"]" />
+                </abp-column>
+            </abp-row>
+        </abp-row>
+    </abp-card-header>
+    <abp-card-body>
+        <abp-table striped-rows="true" id="ProductTable"></abp-table>
+    </abp-card-body>
+</abp-card>

@@ -29,4 +29,11 @@ public static class AbpSolution1Permissions
         public const string Edit = Default + ".Edit";
         public const string Delete = Default + ".Delete";
     }
+    public static class Products
+    {
+        public const string Default = GroupName + ".Administration.Products";
+        public const string Create = Default + ".Create";
+        public const string Edit = Default + ".Edit";
+        public const string Delete = Default + ".Delete";
+    }
 }
