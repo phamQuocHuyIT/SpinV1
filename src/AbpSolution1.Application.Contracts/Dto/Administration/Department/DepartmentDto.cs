@@ -13,5 +13,7 @@ namespace AbpSolution1.Dto.Administration.Department
         public string Code { get; set; } = null!;
         public string? Note { get; set; }
         public bool IsActive { get; set; }
+
+        public Guid? TenantId { get; set; }
     }
 }

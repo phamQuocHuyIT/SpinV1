@@ -19,9 +19,7 @@
   },
   "options": {
     "httpRequests": {
-      "ignoredUrls": [
-      
-      ]
+      "ignoredUrls": []
     }
   },
   "creatingStudioConfiguration": {
@@ -44,11 +42,14 @@
     "theme": "leptonx-lite",
     "themeStyle": "",
     "themeMenuPlacement": "",
-    "mobileFramework": "none",
     "publicWebsite": "false",
     "socialLogin": "false",
-    "selectedLanguages": ["English", "Vietnamese", ],
+    "selectedLanguages": [
+      "English",
+      "Vietnamese"
+    ],
     "defaultLanguage": "English",
     "createCommand": "abp new AbpSolution1 -t app --ui-framework mvc --database-provider ef --database-management-system sqlserver --theme leptonx-lite --without-cms-kit --sample-crud-page --dont-run-bundling --no-social-logins -no-gdpr -no-openiddict-admin-ui -no-audit-logging -no-file-management -no-language-management -no-text-template-management"
-  }
+  },
+  "defaultRunProfile": "Default"
 }
