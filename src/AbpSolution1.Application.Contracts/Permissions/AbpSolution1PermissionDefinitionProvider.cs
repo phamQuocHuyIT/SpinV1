@@ -21,6 +21,11 @@ public class AbpSolution1PermissionDefinitionProvider : PermissionDefinitionProv
         employeePermission.AddChild(AbpSolution1Permissions.Employees.Edit, L("Permission:Employees.Edit"));
         employeePermission.AddChild(AbpSolution1Permissions.Employees.Delete, L("Permission:Employees.Delete"));
 
+        var customerPermission = myGroup.AddPermission(AbpSolution1Permissions.Customers.Default, L("Permission:Customers"));
+        customerPermission.AddChild(AbpSolution1Permissions.Customers.Create, L("Permission:Customers.Create"));
+        customerPermission.AddChild(AbpSolution1Permissions.Customers.Edit, L("Permission:Customers.Edit"));
+        customerPermission.AddChild(AbpSolution1Permissions.Customers.Delete, L("Permission:Customers.Delete"));
+
         var productPermission = myGroup.AddPermission(AbpSolution1Permissions.Products.Default, L("Permission:Products"));
         productPermission.AddChild(AbpSolution1Permissions.Products.Create, L("Permission:Products.Create"));
         productPermission.AddChild(AbpSolution1Permissions.Products.Edit, L("Permission:Products.Edit"));

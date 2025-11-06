@@ -84,6 +84,12 @@ public class AbpSolution1MenuContributor : IMenuContributor
                     l["Menu:Employees"],
                     url: "/Employees"
                 ).RequirePermissions(AbpSolution1Permissions.Employees.Default)
+            ).AddItem(
+                new ApplicationMenuItem(
+                    "Organizational.Customers",
+                    l["Menu:Customers"],
+                    url: "/Customers"
+                ).RequirePermissions(AbpSolution1Permissions.Customers.Default)
             )
         );
         // Config group

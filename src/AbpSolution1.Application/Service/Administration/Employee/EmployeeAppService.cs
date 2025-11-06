@@ -123,6 +123,7 @@ namespace AbpSolution1.Service.Administration.Employee
         [Authorize(AbpSolution1Permissions.Employees.Edit)]
         public async Task CreateOrEdit(CreateUpdateEmployeeDto input)
         {
+            input.TenantId = CurrentTenant.Id;
             if (input == null)
             {
                 throw new UserFriendlyException(L["ObjectNull"]);

@@ -2,14 +2,14 @@
 @using AbpSolution1.Localization
 @using Microsoft.Extensions.Localization
 @using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Modal
-@model AbpSolution1.Web.Pages.Employees.CreateOrEditModalModel
+@model AbpSolution1.Web.Pages.Customers.CreateOrEditModalModel
 @inject IStringLocalizer<AbpSolution1Resource> L
 @{
     Layout = null;
 }
-<abp-script src="/Pages/Employees/createOrEdit.js" />
+<abp-script src="/Pages/Customers/createOrEdit.js" />
 
-<abp-dynamic-form abp-model="Employee" asp-page="/Employees/CreateOrEditModal">
+<abp-dynamic-form abp-model="Customer" asp-page="/Customers/CreateOrEditModal">
     <abp-modal>
         <abp-modal-header title="@(Model.Id.HasValue? L["Edit"] : L["Create"]).Value"></abp-modal-header>
         <abp-modal-body>
@@ -24,11 +24,11 @@
                 </div>
 
                 <div class="form-group mt-3">
-                    <label>@L["Department"]</label>
-                    <select asp-for="@Model.DepartmentId"
+                    <label>@L["Ranked"]</label>
+                    <select asp-for="@Model.RankesStatus"
                             class="form-control"
-                            asp-items="Model.Departments">
-                        <option value="">-- @L["SelectDepartment"] --</option>
+                            asp-items="Model.Ranked">
+                        <option value="">-- @L["SelectGender"] --</option>
                     </select>
                 </div>
             </abp-form-content>
