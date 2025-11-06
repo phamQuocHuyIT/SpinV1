@@ -7,6 +7,8 @@ using AbpSolution1.Dto.Administration.Employee;
 using AbpSolution1.Administration.Employee;
 using AbpSolution1.Dto.Config.Product;
 using AbpSolution1.Config.Product;
+using AbpSolution1.Dto.Administration.Customer;
+using AbpSolution1.Administration.Customer;
 
 namespace AbpSolution1;
 
@@ -26,6 +28,9 @@ public class AbpSolution1ApplicationAutoMapperProfile : Profile
         CreateMap<Employees, CreateUpdateEmployeeDto>();
         CreateMap<CreateOrEditForViewEmployeeDto, CreateUpdateEmployeeDto>();
         CreateMap<CreateUpdateEmployeeDto, CreateOrEditForViewEmployeeDto>();
+
+        CreateMap<CreateUpdateCustomerDto, Customers>().ReverseMap();
+        CreateMap<CreateOrEditForViewCustomerDto, CreateUpdateCustomerDto>().ReverseMap();
 
         CreateMap<CreateUpdateProductDto, Products>().ReverseMap();
         CreateMap<CreateOrEditForViewProductDto, CreateUpdateProductDto>().ReverseMap();

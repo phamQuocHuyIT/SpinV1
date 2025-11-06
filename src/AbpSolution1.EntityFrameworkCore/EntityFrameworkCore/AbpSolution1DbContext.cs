@@ -18,6 +18,7 @@ using Volo.Abp.TenantManagement.EntityFrameworkCore;
 using AbpSolution1.Administration.Departmant;
 using AbpSolution1.Administration.Employee;
 using AbpSolution1.Config.Product;
+using AbpSolution1.Administration.Customer;
 
 namespace AbpSolution1.EntityFrameworkCore;
 
@@ -36,6 +37,8 @@ public class AbpSolution1DbContext :
     public DbSet<Departments> Departments { get; set; }
 
     public DbSet<Employees> Employees { get; set; }
+
+    public DbSet<Customers> Customers { get; set; }
     public DbSet<Products> Pruducts { get; set; }
 
     #region Entities from the modules

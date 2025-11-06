@@ -1,9 +1,8 @@
-﻿using AbpSolution1.Dto.Administration;
-using AbpSolution1.Dto.Administration.Department;
-using AbpSolution1.Dto.Administration.Employee;
+﻿using AbpSolution1.Dto.Administration.Customer;
+using AbpSolution1.Interface.Administration.Customer;
 using AbpSolution1.Interface.Administration.Department;
-using AbpSolution1.Interface.Administration.Employee;
 using AbpSolution1.Localization;
+using Volo.Abp.ObjectMapping;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -11,9 +10,9 @@ using Microsoft.Extensions.Localization;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using Volo.Abp.AspNetCore.Mvc.UI.RazorPages;
 
-namespace AbpSolution1.Web.Pages.Employees
+namespace AbpSolution1.Web.Pages.Customers
 {
     public class CreateOrEditModalModel : AbpSolution1PageModel
     {
@@ -21,59 +20,52 @@ namespace AbpSolution1.Web.Pages.Employees
         public int? Id { get; set; }
 
         [BindProperty]
-        public CreateOrEditForViewEmployeeDto Employee { get; set; }
+        public CreateOrEditForViewCustomerDto Customer { get; set; }
 
-        public int? DepartmentId {  get; set; }
         public int? GenderStatus { get; set; }
+        public int? RankesStatus { get; set; }
 
         public List<SelectListItem> Gender { get; set; }
+        public List<SelectListItem> Ranked { get; set; }
 
-        public List<SelectListItem> Departments { get; set; }
-
-        private readonly IEmployeeAppService _employeeAppService;
+        private readonly ICustomerAppService _CustomerAppService;
         private readonly IDepartmentAppService _departmentAppService;
         private readonly IStringLocalizer<AbpSolution1Resource> _localizer;
-        public CreateOrEditModalModel(IEmployeeAppService employeeAppService, IDepartmentAppService departmentAppService,
+
+        public CreateOrEditModalModel(ICustomerAppService CustomerAppService, IDepartmentAppService departmentAppService,
             IStringLocalizer<AbpSolution1Resource> localizer)
         {
-            _employeeAppService = employeeAppService;
+            _CustomerAppService = CustomerAppService;
             _departmentAppService = departmentAppService;
             _localizer = localizer;
         }
 
         public async Task OnGetAsync(int? id)
         {
-            var query = new CreateUpdateEmployeeDto { Code = string.Empty, FullName= string.Empty} ;
+            var query = new CreateUpdateCustomerDto { Code = string.Empty, FullName = string.Empty };
             Gender = DomainHelps.ListGender(null, _localizer);
-            var departments = await _departmentAppService.GetLookupAsync();
-            Departments = departments.Items
-                .Select(x => new SelectListItem
-                {
-                    Value = x.Id.ToString(),
-                    Text = x.Name
-                })
-                .ToList();
-            if(id.HasValue)
+            Ranked = DomainHelps.ListRanked(null, _localizer);
+            if (id.HasValue)
             {
-                query = await _employeeAppService.GetForEmployeeId(new GetAllEmployeetInput { Id = id.Value });
+                query = await _CustomerAppService.GetForCustomerId(new GetAllCustomertInput { Id = id.Value });
             }
-            
+
             if (query != null)
             {
                 if (query.Id.HasValue)
                 {
 
 
-                    Employee = ObjectMapper.Map<CreateUpdateEmployeeDto, CreateOrEditForViewEmployeeDto>(query);
+                    Customer = ObjectMapper.Map<CreateUpdateCustomerDto, CreateOrEditForViewCustomerDto>(query);
                     Id = query.Id;
-                    DepartmentId = query.DepartmentId;
                     GenderStatus = query.Gender;
+                    RankesStatus = query.Ranked;
 
                 }
             }
             else
             {
-                Employee = new CreateOrEditForViewEmployeeDto
+                Customer = new CreateOrEditForViewCustomerDto
                 {
                     Code = string.Empty,
                     FullName = string.Empty,
@@ -89,14 +81,14 @@ namespace AbpSolution1.Web.Pages.Employees
                 // ⚠️ Nếu validation fail (ví dụ trường Name trống)
                 return Page();
             }
-            if (Employee != null)
+            if (Customer != null)
             {
-                CreateUpdateEmployeeDto query = ObjectMapper.Map<CreateOrEditForViewEmployeeDto, CreateUpdateEmployeeDto>(Employee);
+                CreateUpdateCustomerDto query = ObjectMapper.Map<CreateOrEditForViewCustomerDto, CreateUpdateCustomerDto>(Customer);
                 if (Id.HasValue)
                 {
                     query.Id = id.Value;
                 }
-                await _employeeAppService.CreateOrEdit(query);
+                await _CustomerAppService.CreateOrEdit(query);
                 // ✅ Cho phép modal đóng lại
             }
             else
@@ -107,5 +99,4 @@ namespace AbpSolution1.Web.Pages.Employees
 
         }
     }
-
 }

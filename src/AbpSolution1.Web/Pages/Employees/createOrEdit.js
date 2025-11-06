@@ -18,4 +18,19 @@
         console.log("Selected DepartmentId:", selectedValue);
         employee_DepartmentId.val(selectedValue);
     });
+
+    var genderStatus = $('#GenderStatus');
+    var customer_Gender = $('#Employee_Gender');
+
+
+    customer_Gender.closest('.mb-3').hide();
+
+
+    customer_Gender.val(genderStatus.val());
+
+    genderStatus.on('change', function () {
+        var selectedValue = genderStatus.val();
+        console.log("Selected Gender:", selectedValue);
+        customer_Gender.val(selectedValue);
+    });
 });
