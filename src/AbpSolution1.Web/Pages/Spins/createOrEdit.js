@@ -1,6 +1,8 @@
 ﻿$(function () {
     var l = abp.localization.getResource('AbpSolution1');
     console.log("✅ JS loaded - createOrEdit.js");
+    var Spin_IsEdit = $('#Spin_IsEdit');
+    Spin_IsEdit.closest('.custom-checkbox').hide();
 
     const productService = abpSolution1.service.config.product.product;
     const customerService = abpSolution1.service.administration.customer.customer;
@@ -163,7 +165,10 @@
             .done(() => {
                 abp.notify.info(l('SavedSuccessfully'));
                 abp.event.trigger('spin.createdOrEdited');
-                Modal.closest();
+
+                // Chuyển hướng sang trang Spins
+                window.location.href = "/Spins";
             });
+
     });
 });

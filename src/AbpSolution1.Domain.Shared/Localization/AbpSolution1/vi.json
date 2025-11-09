@@ -79,6 +79,38 @@
     "Spin": "Vòng quay",
     "NewSpin": "Vòng quay",
     "SearchSpin": "Tìm kiếm vòng quay",
+    "IsDefault": "Mặc định",
+    "IsEdit": "Chỉnh sửa",
+    "NumberPhone": "Số điện thoại",
+    "SelectGender": "Vui lòng chọn giới tính",
+    "SelectDepartment": "Vui lòng chọn phòng ban",
+    "SelectRanked": "Vui lòng chọn hạng mức",
+    "Permission:Departments": "Phòng ban",
+    "Permission:Departments.Create": "Tạo phòng ban",
+    "Permission:Departments.Edit": "Chính sủa phòng ban",
+    "Permission:Departments.Delete": "Xóa phòng ban",
+
+    "Permission:Employees": "Nhân viên",
+    "Permission:Employees.Create": "Tạo nhân viên",
+    "Permission:Employees.Edit": "Chính sủa Tạo nhân viên",
+    "Permission:Employees.Delete": "Xóa Tạo nhân viên",
+
+    "Permission:Customers": "Khách hàng",
+    "Permission:Customers.Create": "Tạo khách hàng",
+    "Permission:Customers.Edit": "Chính sủa khách hàng",
+    "Permission:Customers.Delete": "Xóa khách hàng",
+
+    "Permission:Products": "Sản phẩm",
+    "Permission:Products.Create": "Tạo sản phẩm",
+    "Permission:Products.Edit": "Chính sủa sản phẩm",
+    "Permission:Products.Delete": "Xóa sản phẩm",
+
+    "Permission:Spins": "Vòng quay",
+    "Permission:Spins.Create": "Tạo vòng quay",
+    "Permission:Spins.Edit": "Chính sủa vòng quay",
+    "Permission:Spins.Delete": "Xóa vòng quay",
+
+
     "Create": "Tạo mới"
 
 
