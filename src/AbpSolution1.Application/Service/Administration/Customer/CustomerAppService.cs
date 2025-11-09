@@ -122,7 +122,7 @@ namespace AbpSolution1.Service.Administration.Customer
             var existed = await _customerRepository.AnyAsync(x => x.Code == input.Code);
             if (existed)
             {
-                throw new UserFriendlyException($"Mã phòng ban '{input.Code}' đã tồn tại!");
+                throw new UserFriendlyException($"Mã khách hàng '{input.Code}' đã tồn tại!");
             }
             input.TenantId = CurrentTenant.Id;
             var entity = ObjectMapper.Map<CreateUpdateCustomerDto, Customers>(input);
@@ -134,14 +134,14 @@ namespace AbpSolution1.Service.Administration.Customer
             var entity = await _customerRepository.FirstOrDefaultAsync(x => x.Id == input.Id);
             if (entity == null)
             {
-                throw new UserFriendlyException("Không tìm thấy phòng ban cần cập nhật!");
+                throw new UserFriendlyException("Không tìm thấy khách hàng cần cập nhật!");
             }
 
-            // Kiểm tra trùng mã với phòng ban khác
+            // Kiểm tra trùng mã với khách hàng khác
             var existed = await _customerRepository.AnyAsync(x => x.Code == input.Code && x.Id != input.Id);
             if (existed)
             {
-                throw new UserFriendlyException($"Mã phòng ban '{input.Code}' đã tồn tại!");
+                throw new UserFriendlyException($"Mã khách hàng '{input.Code}' đã tồn tại!");
             }
             input.TenantId = CurrentTenant.Id;
             // Map lại các giá trị

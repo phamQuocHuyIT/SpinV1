@@ -211,7 +211,7 @@ namespace AbpSolution1.Service.Config.Spin
             var existed = await _spinRepository.AnyAsync(x => x.Code == input.Code);
             if (existed)
             {
-                throw new UserFriendlyException($"Mã phòng ban '{input.Code}' đã tồn tại!");
+                throw new UserFriendlyException($"Mã vòng quay '{input.Code}' đã tồn tại!");
             }
 
             input.TenantId = CurrentTenant.Id;

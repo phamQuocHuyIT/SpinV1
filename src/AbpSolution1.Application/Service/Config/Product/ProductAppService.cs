@@ -111,7 +111,7 @@ namespace AbpSolution1.Service.Config.Product
             var existed = await _productRepository.AnyAsync(x => x.Code == input.Code);
             if (existed)
             {
-                throw new UserFriendlyException($"Mã phòng ban '{input.Code}' đã tồn tại!");
+                throw new UserFriendlyException($"Mã sản phẩm '{input.Code}' đã tồn tại!");
             }
             input.TenantId = CurrentTenant.Id;
             var entity = ObjectMapper.Map<CreateUpdateProductDto, Products>(input);
@@ -123,14 +123,14 @@ namespace AbpSolution1.Service.Config.Product
             var entity = await _productRepository.FirstOrDefaultAsync(x => x.Id == input.Id);
             if (entity == null)
             {
-                throw new UserFriendlyException("Không tìm thấy phòng ban cần cập nhật!");
+                throw new UserFriendlyException("Không tìm thấy sản phẩm cần cập nhật!");
             }
 
-            // Kiểm tra trùng mã với phòng ban khác
+            // Kiểm tra trùng mã với sản phẩm khác
             var existed = await _productRepository.AnyAsync(x => x.Code == input.Code && x.Id != input.Id);
             if (existed)
             {
-                throw new UserFriendlyException($"Mã phòng ban '{input.Code}' đã tồn tại!");
+                throw new UserFriendlyException($"Mã sản phẩm '{input.Code}' đã tồn tại!");
             }
             input.TenantId = CurrentTenant.Id;
             // Map lại các giá trị
