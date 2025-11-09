@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AbpSolution1.Config.Spins;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -30,5 +31,7 @@ namespace AbpSolution1.Administration.Customer
         public int Ranked { get; set; }
 
         public int TotalPurchase { get; set; }
+
+        public virtual ICollection<SpinCustomer> SpinCustomers { get; set; } = new List<SpinCustomer>();
     }
 }

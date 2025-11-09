@@ -1,6 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Volo.Abp.AuditLogging.EntityFrameworkCore;
+﻿using AbpSolution1.Administration.Customer;
+using AbpSolution1.Administration.Departmant;
+using AbpSolution1.Administration.Employee;
 using AbpSolution1.Books;
+using AbpSolution1.Config.Product;
+using AbpSolution1.Config.Spins;
+using Microsoft.EntityFrameworkCore;
+using Volo.Abp.AuditLogging.EntityFrameworkCore;
 using Volo.Abp.BackgroundJobs.EntityFrameworkCore;
 using Volo.Abp.BlobStoring.Database.EntityFrameworkCore;
 using Volo.Abp.Data;
@@ -10,15 +15,11 @@ using Volo.Abp.EntityFrameworkCore.Modeling;
 using Volo.Abp.FeatureManagement.EntityFrameworkCore;
 using Volo.Abp.Identity;
 using Volo.Abp.Identity.EntityFrameworkCore;
+using Volo.Abp.OpenIddict.EntityFrameworkCore;
 using Volo.Abp.PermissionManagement.EntityFrameworkCore;
 using Volo.Abp.SettingManagement.EntityFrameworkCore;
-using Volo.Abp.OpenIddict.EntityFrameworkCore;
 using Volo.Abp.TenantManagement;
 using Volo.Abp.TenantManagement.EntityFrameworkCore;
-using AbpSolution1.Administration.Departmant;
-using AbpSolution1.Administration.Employee;
-using AbpSolution1.Config.Product;
-using AbpSolution1.Administration.Customer;
 
 namespace AbpSolution1.EntityFrameworkCore;
 
@@ -40,6 +41,10 @@ public class AbpSolution1DbContext :
 
     public DbSet<Customers> Customers { get; set; }
     public DbSet<Products> Pruducts { get; set; }
+
+    public DbSet<Spin> Spins {  get; set; }
+    public DbSet<SpinCustomer> SpinCustomers { get; set;}
+    public DbSet<SpinProduct> SpinProducts { get; set; }
 
     #region Entities from the modules
 
@@ -113,6 +118,38 @@ public class AbpSolution1DbContext :
         builder.Entity<Departments>(b =>
         {
             b.ToTable("Spin_Departments");
+        });
+
+        // 🔸 Spin–Customer
+        builder.Entity<SpinCustomer>(b =>
+        {
+            b.HasKey(x => new { x.SpinId, x.CustomerId }); // composite key
+
+            b.HasOne(x => x.Spin)
+                .WithMany(x => x.SpinCustomers)
+                .HasForeignKey(x => x.SpinId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            b.HasOne(x => x.Customer)
+                .WithMany(x => x.SpinCustomers)
+                .HasForeignKey(x => x.CustomerId)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        // 🔸 Spin–Product
+        builder.Entity<SpinProduct>(b =>
+        {
+            b.HasKey(x => new { x.SpinId, x.ProductId });
+
+            b.HasOne(x => x.Spin)
+                .WithMany(x => x.SpinProducts)
+                .HasForeignKey(x => x.SpinId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            b.HasOne(x => x.Product)
+                .WithMany(x => x.SpinProducts)
+                .HasForeignKey(x => x.ProductId)
+                .OnDelete(DeleteBehavior.Cascade);
         });
         /* Configure your own tables/entities inside here */
 

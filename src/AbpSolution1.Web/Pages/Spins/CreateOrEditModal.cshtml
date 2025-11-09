@@ -1,0 +1,28 @@
+﻿@page
+@model AbpSolution1.Web.Pages.Spins.CreateOrEditModalModel
+@using AbpSolution1.Localization
+@using Microsoft.Extensions.Localization
+@using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Modal
+
+@inject IStringLocalizer<AbpSolution1Resource> L
+@{
+    Layout = null;
+}
+<abp-script src="/Pages/Spins/createOrEdit.js" />
+<abp-dynamic-form abp-model="Spin" asp-page="/Spins/CreateOrEditModal" id="SpinForm">
+    <abp-modal>
+        <abp-modal-header title="@(Model.Id.HasValue? L["Edit"] : L["Create"]).Value"></abp-modal-header>
+        <abp-modal-body>
+            <abp-form-content>
+                <input type="hidden" name="ids" value="@Model.Id" />
+
+                <div class="product-container" style="margin-top:10px;"></div>
+                <button class="btn btn-primary" type="button" id="Add_Product">Thêm sản phẩm</button>
+                <div class="customer-container" style="margin-top:10px;"></div>
+                <button class="btn btn-primary" type="button" id="Add_Customer">Thêm sản phẩm</button>
+
+            </abp-form-content>
+        </abp-modal-body>
+        <button type="submit" id="Sub" class="btn btn-primary">@(Model.Id.HasValue? L["Edit"] : L["Create"]).Value"</button>
+    </abp-modal>
+</abp-dynamic-form>

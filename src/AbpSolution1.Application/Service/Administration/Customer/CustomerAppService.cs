@@ -62,7 +62,7 @@ namespace AbpSolution1.Service.Administration.Customer
         }
 
         public async Task<PagedResultDto<GetCustomerForViewDto>> GetAll(GetAllCustomertInput input)
-        {
+     {
             var query = await CustomersQuery(input);
             var totalCount = await query.CountAsync();
 

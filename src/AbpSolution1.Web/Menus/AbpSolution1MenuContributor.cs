@@ -104,6 +104,12 @@ public class AbpSolution1MenuContributor : IMenuContributor
                     l["Menu:Products"],
                     url: "/Products"
                 ).RequirePermissions(AbpSolution1Permissions.Products.Default)
+            ).AddItem(
+                new ApplicationMenuItem(
+                    "Organizational.Spins",
+                    l["Menu:Spins"],
+                    url: "/Spins"
+                ).RequirePermissions(AbpSolution1Permissions.Spins.Default)
             )
         );
 

@@ -31,6 +31,11 @@ public class AbpSolution1PermissionDefinitionProvider : PermissionDefinitionProv
         productPermission.AddChild(AbpSolution1Permissions.Products.Edit, L("Permission:Products.Edit"));
         productPermission.AddChild(AbpSolution1Permissions.Products.Delete, L("Permission:Products.Delete"));
 
+        var spinPermission = myGroup.AddPermission(AbpSolution1Permissions.Spins.Default, L("Permission:Spins"));
+        spinPermission.AddChild(AbpSolution1Permissions.Spins.Create, L("Permission:Spins.Create"));
+        spinPermission.AddChild(AbpSolution1Permissions.Spins.Edit, L("Permission:Spins.Edit"));
+        spinPermission.AddChild(AbpSolution1Permissions.Spins.Delete, L("Permission:Spins.Delete"));
+
         var booksPermission = myGroup.AddPermission(AbpSolution1Permissions.Books.Default, L("Permission:Books"));
         booksPermission.AddChild(AbpSolution1Permissions.Books.Create, L("Permission:Books.Create"));
         booksPermission.AddChild(AbpSolution1Permissions.Books.Edit, L("Permission:Books.Edit"));
