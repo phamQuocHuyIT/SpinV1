@@ -45,4 +45,12 @@ public static class AbpSolution1Permissions
         public const string Edit = Default + ".Edit";
         public const string Delete = Default + ".Delete";
     }
+
+    public static class Spins
+    {
+        public const string Default = GroupName + ".Administration.Spins";
+        public const string Create = Default + ".Create";
+        public const string Edit = Default + ".Edit";
+        public const string Delete = Default + ".Delete";
+    }
 }

@@ -1,0 +1,204 @@
+﻿:root {
+    --size-wheel: 25rem;
+}
+
+html {
+    box-sizing: border-box;
+    height: 100%;
+    overflow: hidden;
+}
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.msg {
+    min-height: 4rem;
+    font-family: Arial, Helvetica, sans-serif;
+    margin-top: 0.5rem;
+    text-transform: capitalize;
+}
+
+.wheel {
+    position: relative;
+    padding: 0;
+    margin: 1rem 0;
+    width: var(--size-wheel);
+    height: var(--size-wheel);
+    border: 10px solid rgb(0, 12, 184);
+    border-radius: 50%;
+    list-style: none;
+    overflow: hidden;
+    transition: cubic-bezier(0.075, 0.8, 0.2, 1) 7s;
+}
+
+.span-now {
+    display: inline-block;
+    position: relative;
+    padding: 0.5rem;
+}
+
+    .span-now::before {
+        content: '';
+        position: absolute;
+        top: 0rem;
+        left: 50%;
+        border-left: 2rem solid transparent;
+        border-right: 2rem solid transparent;
+        border-top: 4rem solid rgb(255, 217, 0);
+        z-index: 2;
+        transform: translateX(-50%);
+        animation: arrow ease-out 0.6s infinite;
+    }
+
+@keyframes arrow {
+    0% {
+        top: -2rem;
+    }
+
+    80% {
+        top: 0;
+    }
+
+    100% {
+        top: -1.5rem;
+    }
+}
+
+.span-now::after {
+    content: '';
+    width: 2rem;
+    height: 2rem;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgb(255, 255, 255);
+    border-radius: 50%;
+}
+
+.li-wheel {
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 50%;
+    height: 50%;
+    transform-origin: 0% 100%;
+}
+
+.text {
+    font-family: Arial, Helvetica, sans-serif;
+    position: absolute;
+    left: -100%;
+    width: 200%;
+    height: 200%;
+    display: block;
+    text-align: center;
+    padding-top: 1.7rem;
+    font-weight: 600;
+    color: #fff;
+}
+
+    .text > b {
+        display: inline-block;
+        word-break: break-word;
+        max-width: 20%;
+    }
+
+.text-1 {
+    background-color: rgb(0, 89, 255);
+}
+
+.text-2 {
+    background-color: rgb(126, 182, 255);
+}
+
+.main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+button {
+    display: inline-block;
+    text-align: center;
+    border: 0;
+    background-color: #333;
+    color: #fff;
+    font-size: 1.5rem;
+    border-radius: 4rem;
+    padding: 0.5rem 1.5rem;
+    width: auto;
+    cursor: pointer;
+    outline: none;
+}
+
+    button:hover {
+        opacity: 0.8;
+    }
+
+/* 🎯 Khối tìm kiếm khách hàng */
+.customer-search {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.08);
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+    .customer-search:hover {
+        box-shadow: 0 0 18px rgba(0, 0, 0, 0.12);
+    }
+
+/* Ô input tìm kiếm */
+#searchCustomer {
+    border: 2px solid #dee2e6;
+    border-radius: 8px;
+    transition: 0.3s;
+}
+
+    #searchCustomer:focus {
+        border-color: #0d6efd;
+        box-shadow: 0 0 0 0.15rem rgba(13, 110, 253, 0.25);
+    }
+
+/* Danh sách gợi ý */
+#customerSuggestions {
+    max-height: 220px;
+    overflow-y: auto;
+    display: none;
+    position: absolute;
+    z-index: 999;
+    width: 100%;
+    background: #fff;
+    border-radius: 0 0 8px 8px;
+    border: 1px solid #dee2e6;
+    margin-top: -5px;
+}
+
+    #customerSuggestions li {
+        cursor: pointer;
+        padding: 10px 12px;
+        border-bottom: 1px solid #f1f1f1;
+        transition: background-color 0.2s ease;
+    }
+
+        #customerSuggestions li:last-child {
+            border-bottom: none;
+        }
+
+        #customerSuggestions li:hover {
+            background-color: #f8f9fa;
+        }
+
+/* Nhãn phụ trợ */
+.customer-search small {
+    color: #6c757d;
+    display: block;
+    margin-top: 4px;
+}
