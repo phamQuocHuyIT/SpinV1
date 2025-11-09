@@ -202,3 +202,23 @@ button {
     display: block;
     margin-top: 4px;
 }
+
+/* 🔥 Đặt pháo hoa lên trên SweetAlert2 */
+#fireworksCanvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 100; /* ✅ cao hơn SweetAlert2 (mặc định ~1060) */
+}
+.swal2-popup .swal2-modal .swal2-icon-success .swal2-show {
+    z-index: 10000;
+}
+#wheelTitle {
+    color: #fae306 
+}
+.lpx-content-container .lpx-content {
+    background: linear-gradient(45deg, rgb(0, 89, 255), #00ff90);
+}

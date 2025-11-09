@@ -5,12 +5,11 @@
         let timeRotate = 7000; // 7 giây
         let currentRotate = 0;
         let isRotating = false;
-        let listGift = []; // sẽ được cập nhật từ API
+        let listGift = [];
         const wheel = $('.wheel');
         const btnWheel = $('.btn--wheel');
-        const showMsg = $('.msg');
 
-        // =====< Hàm tạo lại giao diện vòng quay >=====
+        // =====< Hàm tạo vòng quay >=====
         window.updateWheel = (newList) => {
             if (!newList || !newList.length) {
                 abp.notify.warn('Vòng quay chưa có phần thưởng!');
@@ -19,34 +18,30 @@
                 return;
             }
 
-            listGift = newList.map(x => ({
-                text: x.text,
-                percent: x.percent
-            }));
-
+            listGift = newList.map(x => ({ text: x.text, percent: x.percent }));
             wheel.innerHTML = '';
             const size = listGift.length;
             const rotate = 360 / size;
             const skewY = 90 - rotate;
 
+            const colors = ['#f94144', '#f3722c', '#f8961e', '#f9c74f', '#90be6d', '#43aa8b', '#577590', '#7400b8'];
+
             listGift.forEach((item, index) => {
                 const elm = document.createElement('li');
                 elm.className = 'li-wheel';
                 elm.style.transform = `rotate(${rotate * index}deg) skewY(-${skewY}deg)`;
-                const textClass = index % 2 === 0 ? 'text-1' : 'text-2';
-                elm.innerHTML = `<p style="transform: skewY(${skewY}deg) rotate(${rotate / 2}deg);" class="text ${textClass}"><b>${item.text}</b></p>`;
+                const color = colors[index % colors.length];
+                elm.innerHTML = `<p style="transform: skewY(${skewY}deg) rotate(${rotate / 2}deg); background-color:${color}; color:white; padding:10px 0;" class="text"><b>${item.text}</b></p>`;
                 wheel.appendChild(elm);
             });
 
             abp.notify.success(`✅ Vòng quay đã được cập nhật với ${size} phần thưởng!`);
         };
 
-        // =====< Hàm quay vòng quay >=====
         const rotateWheel = (currentRotate, index, rotate) => {
             wheel.style.transform = `rotate(${currentRotate - index * rotate - rotate / 2}deg)`;
         };
 
-        // =====< Hàm lấy phần thưởng dựa theo tỷ lệ >=====
         const getGift = (randomNumber) => {
             let currentPercent = 0;
             for (let i = 0; i < listGift.length; i++) {
@@ -56,21 +51,34 @@
             return listGift[listGift.length - 1];
         };
 
-        // =====< Hàm hiển thị kết quả >=====
+        // =====< Hàm hiển thị kết quả với popup + pháo hoa >=====
         const showGift = (gift) => {
             setTimeout(() => {
                 isRotating = false;
-                showMsg.innerHTML = `🎉 Chúc mừng bạn đã nhận được "<b>${gift.text}</b>"`;
+
+                // 🚀 Hiển thị popup + pháo hoa cùng lúc
+                launchFireworks(); // Bắt đầu pháo hoa
+
+                Swal.fire({
+                    title: '🎉 Chúc mừng!',
+                    html: `Bạn đã nhận được:<br><b>${gift.text}</b>`,
+                    icon: 'success',
+                    showConfirmButton: true,
+                    confirmButtonText: 'OK',
+                    background: 'rgba(255,255,255,0.9)', // popup hơi trong suốt
+                    backdrop: 'rgba(0,0,0,0.2)', // overlay nhẹ, vẫn nhìn thấy pháo hoa phía sau
+                });
+
             }, timeRotate);
         };
 
-        // =====< Hàm bắt đầu quay >=====
+
+
         const start = () => {
             if (!listGift.length) {
-                abp.notify.warn('⚠️ Chưa có phần thưởng nào trong vòng quay!');
+                abp.notify.warn('⚠️ Chưa có phần thưởng nào!');
                 return;
             }
-            showMsg.innerHTML = '';
             isRotating = true;
             const random = Math.random();
             const gift = getGift(random);
@@ -81,17 +89,99 @@
             showGift(gift);
         };
 
-        btnWheel.addEventListener('click', () => {
-            if (!isRotating) start();
-        });
+        btnWheel.addEventListener('click', () => { if (!isRotating) start(); });
     })();
 
+    // =======================
+    // 🔥 Pháo hoa
+    // =======================
+    function launchFireworks() {
+        const canvas = document.getElementById('fireworksCanvas');
+        const ctx = canvas.getContext('2d');
+        canvas.style.display = 'block'; // ✅ Hiện canvas khi bắt đầu
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const fireworks = [];
+
+        class Particle {
+            constructor(x, y) {
+                this.x = x;
+                this.y = y;
+                this.vx = (Math.random() - 0.5) * 10;
+                this.vy = (Math.random() - 0.5) * 10;
+                this.alpha = 1;
+                this.size = Math.random() * 3 + 2;
+                this.color = `hsl(${Math.random() * 360}, 100%, 60%)`;
+            }
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                this.vy += 0.03;
+                this.alpha -= 0.01;
+            }
+            draw(ctx) {
+                if (this.alpha <= 0) return;
+                ctx.save();
+                ctx.globalAlpha = this.alpha;
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+
+        class Firework {
+            constructor(x, y) {
+                this.x = x;
+                this.y = y;
+                this.particles = [];
+                for (let i = 0; i < 80; i++) {
+                    this.particles.push(new Particle(x, y));
+                }
+            }
+            update() {
+                this.particles.forEach(p => p.update());
+            }
+            draw(ctx) {
+                this.particles.forEach(p => p.draw(ctx));
+            }
+        }
+
+        const fireworkInterval = setInterval(() => {
+            for (let i = 0; i < 3; i++) {
+                fireworks.push(new Firework(
+                    Math.random() * canvas.width,
+                    Math.random() * canvas.height * 0.5
+                ));
+            }
+        }, 500);
+
+        function animate() {
+            ctx.fillStyle = "rgba(0, 0, 0, 0.2)";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            fireworks.forEach(f => { f.update(); f.draw(ctx); });
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+
+        // ⏱ Sau 10 giây: dừng pháo & ẩn canvas (không che giao diện nữa)
+        setTimeout(() => {
+            clearInterval(fireworkInterval);
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            canvas.style.display = 'none'; // ✅ Ẩn canvas sau khi xong
+        }, 3000);
+    }
+
+
     // ================================
-    // 🔍 Xử lý tìm kiếm khách hàng
+    // 🔍 Xử lý tìm kiếm khách hàng (giữ nguyên)
     // ================================
     const $input = $('#searchCustomer');
     const $suggestions = $('#customerSuggestions');
-    const $selectedInfo = $('#selectedCustomerInfo'); // thông tin chi tiết khách hàng
+    const $selectedInfo = $('#selectedCustomerInfo');
     let selectedCustomerId = null;
     let typingTimer;
 
@@ -106,69 +196,54 @@
         $selectedInfo.removeClass('d-none');
     }
 
-    // =====< Hàm tải vòng quay (customerId có thể null) >=====
     async function loadWheel(customerId) {
-        try {
-            const spinData = await abpSolution1.service.config.spin.spin.getSpinByEmployee({
-                customerId
-            });
-
-            if (!spinData.items?.length) {
-                abp.notify.warn(customerId ? 'Không tìm thấy vòng quay cho khách hàng này!' : 'Chưa có vòng quay mặc định!');
-                updateWheel([]);
-                return;
-            }
-
-            const spin = spinData.items[0].spin;
-            const products = spin.products || [];
-            if (!products.length) {
-                abp.notify.warn(customerId ? 'Vòng quay này chưa có sản phẩm!' : 'Vòng quay mặc định chưa có sản phẩm!');
-                updateWheel([]);
-                return;
-            }
-
-            const listGift = products.map(p => ({
-                text: `${p.productName}`,
-                percent: p.proportion / 100
-            }));
-
-            updateWheel(listGift);
-
-        } catch (error) {
-            console.error('Lỗi khi tải vòng quay:', error);
-            abp.notify.error(customerId ? 'Không thể tải vòng quay cho khách hàng!' : 'Không thể tải vòng quay mặc định!');
-            updateWheel([]);
+    try {
+        const spinData = await abpSolution1.service.config.spin.spin.getSpinByEmployee({ customerId });
+        if (!spinData.items?.length) { 
+            updateWheel([]); 
+            $('#wheelTitle').text('🎡 Vòng quay may mắn'); // mặc định
+            return; 
         }
-    }
 
-    // =====< Clear customer và load vòng quay mặc định >=====
+        const spin = spinData.items[0].spin;
+
+        // ✅ Cập nhật tên vòng quay
+        const wheelName = spin.name || '🎡 Vòng quay may mắn';
+        $('#wheelTitle').text(wheelName);
+
+        const products = spin.products || [];
+        if (!products.length) { 
+            updateWheel([]); 
+            return; 
+        }
+
+        const listGift = products.map(p => ({ text: p.productName, percent: p.proportion / 100 }));
+        updateWheel(listGift);
+    } catch (error) { 
+        console.error(error); 
+        updateWheel([]); 
+        $('#wheelTitle').text('🎡 Vòng quay may mắn'); // fallback
+    }
+}
+
+
     $('#clearCustomer').on('click', function () {
         selectedCustomerId = null;
-        $selectedInfo.addClass('d-none');
-        $input.val('');
-        $('.msg').html('');
-        loadWheel(null); // load vòng quay default
+        $selectedInfo.addClass('d-none'); $input.val(''); loadWheel(null);
     });
 
-    // =====< Lấy danh sách khách hàng từ server >=====
     async function fetchCustomers(keyword) {
         try {
-            const result = await abpSolution1.service.administration.customer.customer.getAll({
-                filter: keyword,
-                maxResultCount: 10
-            });
+            const result = await abpSolution1.service.administration.customer.customer.getAll({ filter: keyword, maxResultCount: 10 });
             renderSuggestions(result.items || []);
-        } catch (err) {
-            console.error('❌ Lỗi khi tải khách hàng:', err);
-        }
+        } catch (err) { console.error(err); }
     }
 
     function renderSuggestions(list) {
         $suggestions.empty();
         if (!list.length) return $suggestions.hide();
         list.forEach(c => {
-            const li = $('<li>')
-                .addClass('list-group-item list-group-item-action')
+            const li = $('<li>').addClass('list-group-item list-group-item-action')
                 .text(`${c.customer.code} - ${c.customer.fullName}`)
                 .data('id', c.customer.id)
                 .data('customer', c.customer);
@@ -188,19 +263,16 @@
         const name = $(this).text();
         selectedCustomerId = $(this).data('id');
         const customer = $(this).data('customer');
-        $input.val(name);
-        $suggestions.fadeOut(100);
+        $input.val(name); $suggestions.fadeOut(100);
         abp.notify.info('Đang tải vòng quay cho khách hàng: ' + name);
         showCustomerInfo(customer);
         loadWheel(selectedCustomerId);
     });
 
     $(document).on('click', function (e) {
-        if (!$(e.target).closest('.customer-search').length) {
-            $suggestions.fadeOut(100);
-        }
+        if (!$(e.target).closest('.customer-search').length) { $suggestions.fadeOut(100); }
     });
 
-    // =====< Load vòng quay mặc định ngay khi trang load >=====
+    // Load vòng quay mặc định
     loadWheel(null);
 });

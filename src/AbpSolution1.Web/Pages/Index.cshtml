@@ -26,6 +26,7 @@
         <!-- 🎡 Vòng quay chiếm 4/5 -->
         <div class="col-lg-9 col-md-8 col-12 d-flex justify-content-center align-items-center">
             <section class="main">
+                <h3 id="wheelTitle" class="wheel-title text-bord text-center mb-3"></h3>
                 <span class="span-now">
                     <ul class="wheel"></ul>
                 </span>
@@ -37,12 +38,10 @@
         <div class="col-lg-3 col-md-4 col-12">
             <section class="customer-search p-3 border rounded">
                 <h3 class="mb-3 text-center">🔍 Tìm khách hàng</h3>
-
                 <div class="position-relative">
                     <input type="text" id="searchCustomer" class="form-control mb-2" placeholder="Nhập tên khách hàng..." autocomplete="off">
                     <ul id="customerSuggestions" class="list-group shadow-sm"></ul>
                     <small class="text-muted">Gõ ít nhất 2 ký tự để tìm kiếm.</small>
-
                     <div id="selectedCustomerInfo" class="mt-2 p-2 border rounded d-none">
                         <p><b>Họ tên:</b> <span id="customerName"></span></p>
                         <p><b>Mã KH:</b> <span id="customerCode"></span></p>
@@ -57,7 +56,10 @@
             </section>
         </div>
     </div>
-
-    <!-- 🏆 Kết quả -->
-    <h1 class="msg text-center mt-4"></h1>
 </div>
+
+<!-- Canvas pháo hoa -->
+<canvas id="fireworksCanvas" ></canvas>
+
+<!-- Thư viện SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
