@@ -11,7 +11,7 @@
 
 <abp-dynamic-form abp-model="Customer" asp-page="/Customers/CreateOrEditModal">
     <abp-modal>
-        <abp-modal-header title="@(Model.Id.HasValue? L["Edit"] : L["Create"]).Value"></abp-modal-header>
+        <abp-modal-header title="@(Model.Id.HasValue? L["Edit"] : L["Create"])"></abp-modal-header>
         <abp-modal-body>
             <abp-form-content>
                 <div class="form-group mt-3">

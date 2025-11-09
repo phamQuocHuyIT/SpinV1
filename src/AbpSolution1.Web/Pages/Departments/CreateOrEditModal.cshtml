@@ -11,7 +11,7 @@
 <abp-script src="/Pages/Departments/createOrEdit.js" />
 <abp-dynamic-form abp-model="Department" asp-page="/Departments/CreateOrEditModal">
     <abp-modal>
-        <abp-modal-header title="@(Model.Id.HasValue? L["Edit"] : L["Create"]).Value"></abp-modal-header>
+        <abp-modal-header title="@(Model.Id.HasValue? L["Edit"] : L["Create"])"></abp-modal-header>
         <abp-modal-body>
             <abp-form-content />
         </abp-modal-body>
