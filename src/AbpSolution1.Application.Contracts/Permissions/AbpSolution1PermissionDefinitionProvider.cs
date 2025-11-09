@@ -36,10 +36,10 @@ public class AbpSolution1PermissionDefinitionProvider : PermissionDefinitionProv
         spinPermission.AddChild(AbpSolution1Permissions.Spins.Edit, L("Permission:Spins.Edit"));
         spinPermission.AddChild(AbpSolution1Permissions.Spins.Delete, L("Permission:Spins.Delete"));
 
-        var booksPermission = myGroup.AddPermission(AbpSolution1Permissions.Books.Default, L("Permission:Books"));
-        booksPermission.AddChild(AbpSolution1Permissions.Books.Create, L("Permission:Books.Create"));
-        booksPermission.AddChild(AbpSolution1Permissions.Books.Edit, L("Permission:Books.Edit"));
-        booksPermission.AddChild(AbpSolution1Permissions.Books.Delete, L("Permission:Books.Delete"));
+        //var booksPermission = myGroup.AddPermission(AbpSolution1Permissions.Books.Default, L("Permission:Books"));
+        //booksPermission.AddChild(AbpSolution1Permissions.Books.Create, L("Permission:Books.Create"));
+        //booksPermission.AddChild(AbpSolution1Permissions.Books.Edit, L("Permission:Books.Edit"));
+        //booksPermission.AddChild(AbpSolution1Permissions.Books.Delete, L("Permission:Books.Delete"));
         //Define your own permissions here. Example:
         //myGroup.AddPermission(AbpSolution1Permissions.MyPermission1, L("Permission:MyPermission1"));
     }

@@ -169,7 +169,7 @@
         list.forEach(c => {
             const li = $('<li>')
                 .addClass('list-group-item list-group-item-action')
-                .text(c.customer.fullName)
+                .text(`${c.customer.code} - ${c.customer.fullName}`)
                 .data('id', c.customer.id)
                 .data('customer', c.customer);
             $suggestions.append(li);

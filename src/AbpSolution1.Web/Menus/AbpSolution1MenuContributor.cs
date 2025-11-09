@@ -52,20 +52,20 @@ public class AbpSolution1MenuContributor : IMenuContributor
 
         administration.SetSubItemOrder(SettingManagementMenuNames.GroupName, 3);
 
-        // 📚 Books group
-        context.Menu.AddItem(
-            new ApplicationMenuItem(
-                "BooksStore",
-                l["Menu:AbpSolution1"],
-                icon: "fa fa-book"
-            ).AddItem(
-                new ApplicationMenuItem(
-                    "BooksStore.Books",
-                    l["Menu:Books"],
-                    url: "/Books"
-                ).RequirePermissions(AbpSolution1Permissions.Books.Default)
-            )
-        );
+        //// 📚 Books group
+        //context.Menu.AddItem(
+        //    new ApplicationMenuItem(
+        //        "BooksStore",
+        //        l["Menu:AbpSolution1"],
+        //        icon: "fa fa-book"
+        //    ).AddItem(
+        //        new ApplicationMenuItem(
+        //            "BooksStore.Books",
+        //            l["Menu:Books"],
+        //            url: "/Books"
+        //        ).RequirePermissions(AbpSolution1Permissions.Books.Default)
+        //    )
+        //);
         // Organizational group
         context.Menu.AddItem(
             new ApplicationMenuItem(
