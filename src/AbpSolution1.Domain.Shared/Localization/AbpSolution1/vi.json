@@ -110,6 +110,15 @@
     "Permission:Spins.Edit": "Chính sủa vòng quay",
     "Permission:Spins.Delete": "Xóa vòng quay",
 
+    "Permission:HistorySpins": "Lịch sử vòng quay",
+    "SearchHistorySpin": "Tìm lịch sử",
+    "HistorySpin": "Lịch sử vòng quay",
+    "Menu:HistorySpins": "Lịch sử vòng quay",
+    "SpinName": "Tên vòng quay",
+    "CustomerName": "Tên khách hàng",
+    "DateReward": "Ngày thực hiện",
+    "ProductName": "Tên sản phẩm",
+    "EmpployeeName": "Nhân viên thực hiện",
 
     "Create": "Tạo mới"
 

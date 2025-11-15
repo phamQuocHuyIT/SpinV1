@@ -115,32 +115,34 @@ namespace AbpSolution1.Service.Administration.Department
 
         private async Task Create(CreateUpdateDepartmentDto input)
         {
+            input.TenantId = CurrentTenant.Id;
             // Kiểm tra trùng mã
-            var existed = await _departmentRepository.AnyAsync(x => x.Code == input.Code);
+            var existed = await _departmentRepository.AnyAsync(x => x.Code == input.Code && x.TenantId == input.TenantId && !x.IsDeleted);
             if (existed)
             {
                 throw new UserFriendlyException($"Mã phòng ban '{input.Code}' đã tồn tại!");
             }
-            input.TenantId = CurrentTenant.Id;
+            
             var entity = ObjectMapper.Map<CreateUpdateDepartmentDto, Departments>(input);
             await _departmentRepository.InsertAsync(entity, autoSave: true);
         }
 
         private async Task Update(CreateUpdateDepartmentDto input)
         {
-            var entity = await _departmentRepository.FirstOrDefaultAsync(x => x.Id == input.Id);
+            input.TenantId = CurrentTenant.Id;
+            var entity = await _departmentRepository.FirstOrDefaultAsync(x => x.Id == input.Id && x.TenantId == input.TenantId && !x.IsDeleted);
             if (entity == null)
             {
                 throw new UserFriendlyException("Không tìm thấy phòng ban cần cập nhật!");
             }
 
             // Kiểm tra trùng mã với phòng ban khác
-            var existed = await _departmentRepository.AnyAsync(x => x.Code == input.Code && x.Id != input.Id);
+            var existed = await _departmentRepository.AnyAsync(x => x.Code == input.Code && x.Id != input.Id && x.TenantId == input.TenantId && !x.IsDeleted);
             if (existed)
             {
                 throw new UserFriendlyException($"Mã phòng ban '{input.Code}' đã tồn tại!");
             }
-            input.TenantId = CurrentTenant.Id;
+            
             // Map lại các giá trị
             ObjectMapper.Map(input, entity);
 
@@ -155,7 +157,7 @@ namespace AbpSolution1.Service.Administration.Department
 
         public async Task<ListResultDto<DepartmentLookupDto>> GetLookupAsync()
         {
-            var departments = await _departmentRepository.GetListAsync();
+            var departments = await _departmentRepository.GetListAsync(x => !x.IsDeleted && x.TenantId == CurrentTenant.Id);
             var list = departments
                 .Select(x => new DepartmentLookupDto
                 {

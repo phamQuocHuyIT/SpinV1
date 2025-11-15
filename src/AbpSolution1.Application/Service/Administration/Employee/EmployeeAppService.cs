@@ -145,7 +145,7 @@ namespace AbpSolution1.Service.Administration.Employee
             try
             {
                 // 🔸 Kiểm tra mã trùng
-                var existed = await _employeeRepository.AnyAsync(x => x.Code == input.Code);
+                var existed = await _employeeRepository.AnyAsync(x => x.Code == input.Code && x.TenantId == CurrentTenant.Id && !x.IsDeleted);
                 if (existed)
                     throw new UserFriendlyException($"Mã nhân viên '{input.Code}' đã tồn tại!");
 

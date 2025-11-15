@@ -35,7 +35,7 @@
                                 },
                                 visible: abp.auth.isGranted('AbpSolution1.Administration.Employees.Delete'),
                                 action: function (data) {
-                                    service.delete(data.record.department.id)
+                                    service.delete(data.record.employee.id)
                                         .then(function () {
                                             abp.notify.success(l('DeletedSuccessfully'));
                                             dataTable.ajax.reload();

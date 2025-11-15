@@ -46,6 +46,8 @@ public class AbpSolution1DbContext :
     public DbSet<SpinCustomer> SpinCustomers { get; set;}
     public DbSet<SpinProduct> SpinProducts { get; set; }
 
+    public DbSet<HistorySpin> HistorySpins { get; set; }
+
     #region Entities from the modules
 
     /* Notice: We only implemented IIdentityProDbContext and ISaasDbContext

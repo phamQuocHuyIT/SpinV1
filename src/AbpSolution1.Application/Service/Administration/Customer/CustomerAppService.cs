@@ -119,31 +119,33 @@ namespace AbpSolution1.Service.Administration.Customer
         private async Task Create(CreateUpdateCustomerDto input)
         {
             // Kiểm tra trùng mã
-            var existed = await _customerRepository.AnyAsync(x => x.Code == input.Code);
+            input.TenantId = CurrentTenant.Id;
+            var existed = await _customerRepository.AnyAsync(x => x.Code == input.Code && x.TenantId == input.TenantId && !x.IsDeleted);
             if (existed)
             {
                 throw new UserFriendlyException($"Mã khách hàng '{input.Code}' đã tồn tại!");
             }
-            input.TenantId = CurrentTenant.Id;
+            
             var entity = ObjectMapper.Map<CreateUpdateCustomerDto, Customers>(input);
             await _customerRepository.InsertAsync(entity, autoSave: true);
         }
 
         private async Task Update(CreateUpdateCustomerDto input)
         {
-            var entity = await _customerRepository.FirstOrDefaultAsync(x => x.Id == input.Id);
+            input.TenantId = CurrentTenant.Id;
+            var entity = await _customerRepository.FirstOrDefaultAsync(x => x.Id == input.Id && x.TenantId == input.TenantId && !x.IsDeleted);
             if (entity == null)
             {
                 throw new UserFriendlyException("Không tìm thấy khách hàng cần cập nhật!");
             }
 
             // Kiểm tra trùng mã với khách hàng khác
-            var existed = await _customerRepository.AnyAsync(x => x.Code == input.Code && x.Id != input.Id);
+            var existed = await _customerRepository.AnyAsync(x => x.Code == input.Code && x.Id != input.Id && x.TenantId == input.TenantId && !x.IsDeleted);
             if (existed)
             {
                 throw new UserFriendlyException($"Mã khách hàng '{input.Code}' đã tồn tại!");
             }
-            input.TenantId = CurrentTenant.Id;
+            
             // Map lại các giá trị
             ObjectMapper.Map(input, entity);
 
@@ -158,7 +160,7 @@ namespace AbpSolution1.Service.Administration.Customer
 
         public async Task<ListResultDto<CustomerLookupDto>> GetLookupAsync()
         {
-            var Customers = await _customerRepository.GetListAsync();
+            var Customers = await _customerRepository.GetListAsync(x => !x.IsDeleted && x.TenantId == CurrentTenant.Id);
             var list = Customers
                 .Select(x => new CustomerLookupDto
                 {

@@ -14,5 +14,5 @@ namespace AbpSolution1.Dto.Administration.Department
         public int? Id { get; set; }
 
         public Guid? TenantId { get; set; }
-}
+    }
 }

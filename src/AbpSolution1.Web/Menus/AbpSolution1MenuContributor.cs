@@ -110,6 +110,12 @@ public class AbpSolution1MenuContributor : IMenuContributor
                     l["Menu:Spins"],
                     url: "/Spins"
                 ).RequirePermissions(AbpSolution1Permissions.Spins.Default)
+            ).AddItem(
+                new ApplicationMenuItem(
+                    "Organizational.HistorySpins",
+                    l["Menu:HistorySpins"],
+                    url: "/HistorySpins"
+                ).RequirePermissions(AbpSolution1Permissions.HistorySpins.Default)
             )
         );
 

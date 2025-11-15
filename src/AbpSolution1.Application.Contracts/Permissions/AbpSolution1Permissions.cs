@@ -53,4 +53,9 @@ public static class AbpSolution1Permissions
         public const string Edit = Default + ".Edit";
         public const string Delete = Default + ".Delete";
     }
+
+    public static class HistorySpins
+    {
+        public const string Default = GroupName + ".Administration.HistorySpins";
+    }
 }

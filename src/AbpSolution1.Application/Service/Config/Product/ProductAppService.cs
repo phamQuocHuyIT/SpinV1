@@ -107,32 +107,34 @@ namespace AbpSolution1.Service.Config.Product
 
         private async Task Create(CreateUpdateProductDto input)
         {
+            input.TenantId = CurrentTenant.Id;
             // Kiểm tra trùng mã
-            var existed = await _productRepository.AnyAsync(x => x.Code == input.Code);
+            var existed = await _productRepository.AnyAsync(x => x.Code == input.Code && x.TenantId == input.TenantId && !x.IsDeleted);
             if (existed)
             {
                 throw new UserFriendlyException($"Mã sản phẩm '{input.Code}' đã tồn tại!");
             }
-            input.TenantId = CurrentTenant.Id;
+            
             var entity = ObjectMapper.Map<CreateUpdateProductDto, Products>(input);
             await _productRepository.InsertAsync(entity, autoSave: true);
         }
 
         private async Task Update(CreateUpdateProductDto input)
         {
-            var entity = await _productRepository.FirstOrDefaultAsync(x => x.Id == input.Id);
+            input.TenantId = CurrentTenant.Id;
+            var entity = await _productRepository.FirstOrDefaultAsync(x => x.Id == input.Id && x.TenantId == input.TenantId && !x.IsDeleted);
             if (entity == null)
             {
                 throw new UserFriendlyException("Không tìm thấy sản phẩm cần cập nhật!");
             }
 
             // Kiểm tra trùng mã với sản phẩm khác
-            var existed = await _productRepository.AnyAsync(x => x.Code == input.Code && x.Id != input.Id);
+            var existed = await _productRepository.AnyAsync(x => x.Code == input.Code && x.Id != input.Id && x.TenantId == input.TenantId && !x.IsDeleted);
             if (existed)
             {
                 throw new UserFriendlyException($"Mã sản phẩm '{input.Code}' đã tồn tại!");
             }
-            input.TenantId = CurrentTenant.Id;
+            
             // Map lại các giá trị
             ObjectMapper.Map(input, entity);
 
@@ -147,7 +149,7 @@ namespace AbpSolution1.Service.Config.Product
 
         public async Task<ListResultDto<ProductLookupDto>> GetLookupAsync()
         {
-            var Products = await _productRepository.GetListAsync();
+            var Products = await _productRepository.GetListAsync( x => !x.IsDeleted && x.TenantId == CurrentTenant.Id);
             var list = Products
                 .Select(x => new ProductLookupDto
                 {

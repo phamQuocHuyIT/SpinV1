@@ -123,6 +123,7 @@ namespace AbpSolution1.Service.Config.Spin
                 )
                 .WhereIf(input.Id.HasValue, x => x.Id == input.Id)
                 .WhereIf(!input.Id.HasValue, x => x.IsDefault)
+                .WhereIf(input.IsActive.HasValue, x => x.IsActive == input.IsActive)
                 .Select(d => new SpinDto
                 {
                     Id = d.Id,
@@ -156,6 +157,7 @@ namespace AbpSolution1.Service.Config.Spin
         {
             var getSpinid = await _spinCustomerRepository.FirstOrDefaultAsync(x => x.CustomerId == input.CustomerId);
             input.Id = getSpinid?.SpinId;
+            input.IsActive = true;
             var query = await SpinQueryBy(input);
             var totalCount = await query.CountAsync();
 
@@ -207,14 +209,15 @@ namespace AbpSolution1.Service.Config.Spin
 
         private async Task Create(CreateUpdateSpinDto input)
         {
+            input.TenantId = CurrentTenant.Id;
             // Kiểm tra trùng mã
-            var existed = await _spinRepository.AnyAsync(x => x.Code == input.Code);
+            var existed = await _spinRepository.AnyAsync(x => x.Code == input.Code && x.TenantId == input.TenantId && !x.IsDeleted);
             if (existed)
             {
                 throw new UserFriendlyException($"Mã vòng quay '{input.Code}' đã tồn tại!");
             }
 
-            input.TenantId = CurrentTenant.Id;
+            
             var entity = ObjectMapper.Map<CreateUpdateSpinDto, AbpSolution1.Config.Spins.Spin>(input);
 
             // Tạo Spin
@@ -246,18 +249,19 @@ namespace AbpSolution1.Service.Config.Spin
 
         private async Task Update(CreateUpdateSpinDto input)
         {
+            input.TenantId = CurrentTenant.Id;
             // Lấy Spin theo Id
-            var entity = await _spinRepository.FirstOrDefaultAsync(x => x.Id == input.Id);
+            var entity = await _spinRepository.FirstOrDefaultAsync(x => x.Id == input.Id && x.TenantId == input.TenantId && !x.IsDeleted);
             if (entity == null)
                 throw new UserFriendlyException("Không tìm thấy Spin cần cập nhật!");
 
             // Kiểm tra trùng mã với Spin khác
-            var existed = await _spinRepository.AnyAsync(x => x.Code == input.Code && x.Id != input.Id);
+            var existed = await _spinRepository.AnyAsync(x => x.Code == input.Code && x.Id != input.Id && x.TenantId == input.TenantId && !x.IsDeleted);
             if (existed)
                 throw new UserFriendlyException($"Mã Spin '{input.Code}' đã tồn tại!");
 
             // Map dữ liệu từ DTO
-            input.TenantId = CurrentTenant.Id;
+            
             ObjectMapper.Map(input, entity);
 
             // Cập nhật Spin

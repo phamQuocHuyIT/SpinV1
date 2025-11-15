@@ -10,8 +10,8 @@ namespace AbpSolution1.Dto.Config.Spin
 {
     public class CreateOrEditForViewSpinDto
     {
-        public string Name { get; set; } = null!;
         public string Code { get; set; } = null!;
+        public string Name { get; set; } = null!;
         public string? Note { get; set; }
         public bool IsActive { get; set; }
 

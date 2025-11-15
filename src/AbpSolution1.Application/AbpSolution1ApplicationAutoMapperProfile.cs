@@ -10,6 +10,7 @@ using AbpSolution1.Dto.Administration.Department;
 using AbpSolution1.Dto.Administration.Employee;
 using AbpSolution1.Dto.Config.Product;
 using AbpSolution1.Dto.Config.Spin;
+using AbpSolution1.Dto.Config.Spin.HistorySpin;
 using AutoMapper;
 
 namespace AbpSolution1;
@@ -42,6 +43,7 @@ public class AbpSolution1ApplicationAutoMapperProfile : Profile
         CreateMap<SpinDto, CreateUpdateSpinDto>().ReverseMap();
         CreateMap<SpinProductDto, SpinProduct>().ReverseMap();
         CreateMap<SpinCustomerDto, SpinCustomer>().ReverseMap();
+        CreateMap<CreateUpdateHistorySpinDto, HistorySpin>().ReverseMap();
         /* You can configure your AutoMapper mapping configuration here.
          * Alternatively, you can split your mapping configurations
          * into multiple profile classes for a better organization. */
