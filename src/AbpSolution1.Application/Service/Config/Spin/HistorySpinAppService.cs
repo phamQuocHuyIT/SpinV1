@@ -9,6 +9,7 @@ using AbpSolution1.Interface.Config.Product;
 using AbpSolution1.Interface.Config.Spins;
 using AbpSolution1.Permissions;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -20,6 +21,7 @@ using Volo.Abp;
 using Volo.Abp.Application.Dtos;
 namespace AbpSolution1.Service.Config.Spin
 {
+    [IgnoreAntiforgeryToken]
     [Authorize(AbpSolution1Permissions.HistorySpins.Default)]
     public class HistorySpinAppService : AbpSolution1AppService, IHistorySpinAppService
     {

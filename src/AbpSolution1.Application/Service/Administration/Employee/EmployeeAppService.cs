@@ -6,6 +6,7 @@ using AbpSolution1.Localization;
 using AbpSolution1.Permissions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
@@ -23,7 +24,7 @@ using static Volo.Abp.Identity.Settings.IdentitySettingNames;
 
 namespace AbpSolution1.Service.Administration.Employee
 {
-
+    [IgnoreAntiforgeryToken]
     [Authorize(AbpSolution1Permissions.Employees.Default)]
     public class EmployeeAppService : AbpSolution1AppService, IEmployeeAppService
     {

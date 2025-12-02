@@ -8,6 +8,7 @@ using AbpSolution1.Localization;
 using AbpSolution1.MultiTenancy;
 using AbpSolution1.Permissions;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
@@ -23,6 +24,7 @@ using Volo.Abp.TenantManagement;
 
 namespace AbpSolution1.Service.Administration.Department
 {
+    [IgnoreAntiforgeryToken]
     [Authorize(AbpSolution1Permissions.Departments.Default)]
     public class DepartmentAppService : AbpSolution1AppService, IDepartmentAppService
     {

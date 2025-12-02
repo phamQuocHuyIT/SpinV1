@@ -5,20 +5,23 @@ using AbpSolution1.Interface.Administration.Customer;
 using AbpSolution1.Localization;
 using AbpSolution1.Permissions;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Dynamic.Core;
 using System.Text;
 using System.Threading.Tasks;
-using Volo.Abp.Application.Dtos;
-using Volo.Abp.Domain.Repositories;
-using System.Linq.Dynamic.Core;
 using Volo.Abp;
+using Volo.Abp.Application.Dtos;
+using Volo.Abp.AspNetCore.ExceptionHandling;
+using Volo.Abp.Domain.Repositories;
 
 namespace AbpSolution1.Service.Administration.Customer
 {
+    [IgnoreAntiforgeryToken]
     [Authorize(AbpSolution1Permissions.Customers.Default)]
     public class CustomerAppService: AbpSolution1AppService, ICustomerAppService
     {
@@ -96,8 +99,8 @@ namespace AbpSolution1.Service.Administration.Customer
         // ===============================
         // 🧩 CREATE OR EDIT
         // ===============================
-        [Authorize(AbpSolution1Permissions.Customers.Create)]
         [Authorize(AbpSolution1Permissions.Customers.Edit)]
+        [Authorize(AbpSolution1Permissions.Customers.Create)]
         public async Task CreateOrEdit(CreateUpdateCustomerDto input)
         {
             if (input == null)

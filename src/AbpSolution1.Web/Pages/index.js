@@ -9,14 +9,15 @@
     };
 
     (() => {
-        const $ = document.querySelector.bind(document);
+        // $$ dùng cho DOM thuần
+        const $$ = document.querySelector.bind(document);
 
         let timeRotate = 7000;
         let currentRotate = 0;
         let isRotating = false;
         let listGift = [];
-        const wheel = $('.wheel');
-        const btnWheel = $('.btn--wheel');
+        const wheel = $$('.wheel');
+        const btnWheel = $$('.btn--wheel');
 
         // ===============================
         // 🎡 CẬP NHẬT VÒNG QUAY
@@ -30,7 +31,7 @@
             }
 
             listGift = newList.map(x => ({
-                id: x.id,       // PRODUCT ID
+                id: x.id,
                 text: x.text,
                 percent: x.percent
             }));
@@ -48,10 +49,9 @@
                 elm.style.transform = `rotate(${rotate * index}deg) skewY(-${skewY}deg)`;
                 const color = colors[index % colors.length];
 
-                elm.innerHTML =
-                    `<p style="transform: skewY(${skewY}deg) rotate(${rotate / 2}deg);
-                    background-color:${color}; color:white; padding:10px 0;" 
-                    class="text"><b>${item.text}</b></p>`;
+                elm.innerHTML = `<p style="transform: skewY(${skewY}deg) rotate(${rotate / 2}deg); 
+                                    background-color:${color}; color:white; padding:10px 0;" 
+                                    class="text"><b>${item.text}</b></p>`;
                 wheel.appendChild(elm);
             });
 
@@ -64,14 +64,12 @@
 
         const getGift = (randomNumber) => {
             let currentPercent = 0;
-
             for (let i = 0; i < listGift.length; i++) {
                 currentPercent += listGift[i].percent;
                 if (randomNumber <= currentPercent)
                     return { ...listGift[i], index: i };
             }
-
-            return listGift[listGift.length - 1];
+            return { ...listGift[listGift.length - 1], index: listGift.length - 1 };
         };
 
         // =======================================
@@ -84,7 +82,7 @@
                 // 🔥 Pháo hoa
                 launchFireworks();
 
-                // 💾 Lưu lịch sử: lấy ProductId
+                // 💾 Lưu lịch sử
                 historySpinData.productId = gift.id;
 
                 // 🔥 CALL API LƯU LỊCH SỬ
@@ -126,8 +124,12 @@
         };
 
         btnWheel.addEventListener('click', () => { if (!isRotating) start(); });
+        document.addEventListener("keydown", function (e) {
+            if (e.key === "Enter") {
+                if (!isRotating) start();
+            }
+        });
     })();
-
 
     // ===================================================
     // 🎆 PHÁO HOA
@@ -174,7 +176,6 @@
                 this.x = x;
                 this.y = y;
                 this.particles = [];
-
                 for (let i = 0; i < 80; i++) {
                     this.particles.push(new Particle(x, y));
                 }
@@ -208,7 +209,6 @@
         }, 3000);
     }
 
-
     // ============================================
     // 🔍 TÌM KIẾM KHÁCH HÀNG
     // ============================================
@@ -224,11 +224,10 @@
         $('#customerDOB').text(customer.dob ? new Date(customer.dob).toLocaleDateString() : '');
         $('#customerAddress').text(customer.address || '');
         $('#customerPhone').text(customer.numberPhone || '');
-        $('#customerGender').text(customer.gender === 1 ? 'Nam' : customer.gender === 2 ? 'Nữ' : 'Khác');
+        $('#customerGender').text(customer.gender === 1 ? 'Nam' : customer.gender === 0 ? 'Nữ' : 'Khác');
         $('#customerTotalPurchase').text(customer.totalPurchase || 0);
         $selectedInfo.removeClass('d-none');
 
-        // LƯU CUSTOMER ID
         historySpinData.customerId = customer.id;
     }
 
@@ -246,8 +245,6 @@
             }
 
             const spin = spinData.items[0].spin;
-
-            // LƯU SPIN ID
             historySpinData.spinId = spin.id;
 
             $('#wheelTitle').text(spin.name || '🎡 Vòng quay may mắn');
@@ -259,7 +256,7 @@
             }
 
             const listGift = products.map(p => ({
-                id: p.productId,   // PRODUCT ID
+                id: p.productId,
                 text: p.productName,
                 percent: p.proportion / 100
             }));
@@ -272,7 +269,6 @@
             $('#wheelTitle').text('🎡 Vòng quay may mắn');
         }
     }
-
 
     $('#clearCustomer').on('click', function () {
         selectedCustomerId = null;
@@ -338,6 +334,6 @@
         }
     });
 
-    // LOAD VÒNG QUAY MẶC ĐỊNH
+    // LOAD VÒNG QUAY MẶC ĐỊNH // Đã fix
     loadWheel(null);
 });

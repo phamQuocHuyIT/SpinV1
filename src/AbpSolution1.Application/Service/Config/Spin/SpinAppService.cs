@@ -1,25 +1,28 @@
-﻿using AbpSolution1.Config.Spins;
+﻿using AbpSolution1.Config.Product;
+using AbpSolution1.Config.Spins;
 using AbpSolution1.Dto.Config.Product;
+using AbpSolution1.Dto.Config.Spin;
 using AbpSolution1.Interface.Config.Spins;
 using AbpSolution1.Permissions;
 using AutoMapper.Internal.Mappers;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Dynamic.Core;
 using System.Text;
 using System.Threading.Tasks;
+using Volo.Abp;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Domain.Repositories;
 using Volo.Abp.MultiTenancy;
-using System.Linq.Dynamic.Core;
-using Volo.Abp;
-using AbpSolution1.Dto.Config.Spin;
-using AbpSolution1.Config.Product;
 
 namespace AbpSolution1.Service.Config.Spin
 {
+    [IgnoreAntiforgeryToken]
+    [Authorize(AbpSolution1Permissions.Spins.Default)]
     public class SpinAppService: AbpSolution1AppService, ISpinAppService
     {
         private readonly Volo.Abp.Domain.Repositories.IRepository<AbpSolution1.Config.Spins.Spin, int> _spinRepository;

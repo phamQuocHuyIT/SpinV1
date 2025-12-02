@@ -3,19 +3,22 @@ using AbpSolution1.Dto.Config.Product;
 using AbpSolution1.Interface.Config.Product;
 using AbpSolution1.Permissions;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Dynamic.Core;
 using System.Text;
 using System.Threading.Tasks;
 using Volo.Abp;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Domain.Repositories;
-using System.Linq.Dynamic.Core;
 
 namespace AbpSolution1.Service.Config.Product
 {
+    [IgnoreAntiforgeryToken]
+    [Authorize(AbpSolution1Permissions.Products.Default)]
     public class ProductAppService: AbpSolution1AppService, IProductAppService
     {
         private readonly Volo.Abp.Domain.Repositories.IRepository<Products, int> _productRepository;

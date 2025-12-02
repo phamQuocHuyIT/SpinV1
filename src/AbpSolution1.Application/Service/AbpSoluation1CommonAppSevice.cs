@@ -3,12 +3,14 @@ using AbpSolution1.Config.Spins;
 using AbpSolution1.Dto.Config.Spin.HistorySpin;
 using AbpSolution1.Interface;
 using JetBrains.Annotations;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
 using Volo.Abp.Domain.Repositories;
 using Volo.Abp.Identity;
 namespace AbpSolution1.Service
 {
+    [IgnoreAntiforgeryToken]
     public class AbpSoluation1CommonAppSevice : AbpSolution1AppService, IAbpSoluation1CommonAppSevice
     {
         private readonly Volo.Abp.Domain.Repositories.IRepository<HistorySpin, int> _historySpinRepository;
