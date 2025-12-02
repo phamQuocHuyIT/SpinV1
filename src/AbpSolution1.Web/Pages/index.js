@@ -336,4 +336,39 @@
 
     // LOAD VÒNG QUAY MẶC ĐỊNH // Đã fix
     loadWheel(null);
+
+
+    //region customers-menu
+    
+    var btnCustomersMenu = $('.hidden-in-hover-trigger');
+    var toggleMenuHide = $('#toggleMenuHide');
+    // handle customers menu
+   
+    btnCustomersMenu.on('click', function () {
+        var ele1 = $('#lpx-wrapper.hover-trigger .lpx-sidebar-container:not(:hover)');
+        var ele2 = $('.hover-trigger .lpx-sidebar-container:hover');
+        var ele3 = $('#lpx-wrapper.hover-trigger .lpx-content-container');
+        ele1.addClass('customer-menu');
+        ele2.addClass('customer-menu');
+        ele3.addClass('customer-menu1');
+        toggleMenuHide.show();
+    });
+    //
+
+    //handle toggleMenuHide
+    toggleMenuHide.on('click', function () {
+        var ele1 = $('#lpx-wrapper.hover-trigger .lpx-sidebar-container:not(:hover)');
+        var ele2 = $('.hover-trigger .lpx-sidebar-container:hover');
+        var ele3 = $('#lpx-wrapper.hover-trigger .lpx-content-container');
+        var lpxwrapper = $('#lpx-wrapper');
+        ele1.removeClass('customer-menu');
+        ele2.removeClass('customer-menu');
+        ele3.removeClass('customer-menu1');
+        toggleMenuHide.hide();
+        lpxwrapper.removeClass('hover-trigger');
+
+    });
+    //
+    
+    //endregion
 });

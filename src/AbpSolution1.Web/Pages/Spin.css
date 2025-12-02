@@ -222,3 +222,20 @@ button {
 .lpx-content-container .lpx-content {
     background: linear-gradient(45deg, rgb(0, 89, 255), #00ff90);
 }
+
+/* Điều chỉnh nút đóng của menu */
+@media only screen and (min-width: 1200px) {
+
+    .customer-menu {
+        display: none; /*block*/
+        min-width: 72px;
+        max-width: 72px;
+    }
+    .customer-menu1 {
+        margin-left: 0px !important;
+    }
+    .toggle-MenuHide {
+        display: none;
+        border-radius: 50%;
+    }
+}
